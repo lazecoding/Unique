@@ -11,9 +11,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.111.235.127:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://47.111.111.111:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
     username: root
-    password: root
+    password: 111111
 
 #Spring集成Mybatis环境
 mybatis:
