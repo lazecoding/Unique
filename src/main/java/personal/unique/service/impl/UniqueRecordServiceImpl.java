@@ -256,7 +256,6 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
             buffer.getReadLock().lock();
             try {
                 final Segment segment = buffer.getCurrent();
-                System.out.println("segment.getIdle() = " + segment.getIdle() + "                0.9 * segment.getStep() = " + segment.getStep() / 2);
                 // buffer.getThreadRunning() 标识整站初始化 防止同时出现多个线程初始化
                 if (!buffer.isNextReady() && (segment.getIdle() < segment.getStep() / 2) && buffer.getThreadRunning().compareAndSet(false, true)) {
                     service.execute(new Runnable() {
@@ -285,7 +284,6 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                     });
                 }
                 long value = segment.getValue().getAndIncrement();
-                System.out.println("value :" +value + "       segment.getMax() :" +segment.getMax());
                 if (value < segment.getMax()) {
                     return value;
                 }
