@@ -11,7 +11,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.111.222.333:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://47.222.333.111:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
     username: root
     password: 444
 
