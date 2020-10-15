@@ -1,0 +1,26 @@
+# 服务端口
+server:
+  port: 8090
+  http:
+    # 字符集过滤器
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+# 数据库配置信息,数据库字符集utf8mb4
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.111.222.333:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    username: root
+    password: 444
+
+#Spring集成Mybatis环境
+mybatis:
+  type-aliases-package: personal.unique.model
+  mapper-locations: classpath:mapper/*Mapper.xml
+  configuration:
+    # Mybatis驼峰命名映射
+    map-underscore-to-camel-case: true
+
+
