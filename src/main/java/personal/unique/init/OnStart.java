@@ -26,11 +26,10 @@ public class OnStart implements CommandLineRunner {
     @Override
     public void run(String... args) throws InitException {
         logger.info("OnStart To Init Cache Begin");
-        try {
-            uniqueRecordService.init();
+        boolean flag = uniqueRecordService.init();
+        if (flag) {
             logger.info("OnStart To Init Cache Success");
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             logger.info("OnStart To Init Cache Fail");
         }
     }
