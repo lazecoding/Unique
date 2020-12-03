@@ -30,7 +30,7 @@ public class OnStart implements CommandLineRunner {
         if (flag) {
             logger.info("OnStart To Init Cache Success");
         } else {
-            logger.info("OnStart To Init Cache Fail");
+            logger.warn("OnStart To Init Cache Fail");
         }
     }
 }

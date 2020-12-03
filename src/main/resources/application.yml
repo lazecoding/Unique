@@ -7,8 +7,10 @@ server:
       charset: UTF-8
       enabled: true
       force: true
-# 数据库配置信息,数据库字符集utf8mb4
 spring:
+  application:
+    name: unique
+  # 数据库配置信息,数据库字符集utf8mb4
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://47.222.333.111:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true

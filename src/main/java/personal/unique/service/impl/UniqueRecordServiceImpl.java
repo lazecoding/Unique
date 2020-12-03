@@ -172,7 +172,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                             // buffer 初始化成功
                             buffer.setinitSuccess(true);
                         } catch (Exception e) {
-                            logger.info("Init tag {} Buffer {} From Db Exception", tag, buffer.getCurrent(), e);
+                            logger.warn("Init tag {} Buffer {} From Db Exception", tag, buffer.getCurrent(), e);
                         }
                     }
                 }
