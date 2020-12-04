@@ -17,7 +17,7 @@ import javax.servlet.annotation.WebListener;
 /**
  * @author: lazecoding
  * @date: 2020/12/3 22:49
- * @description: 容器启动扩展 Listener
+ * @description: Listener 扩展
  */
 @WebListener
 public class BaseListener implements ServletContextListener, ServletRequestListener, ApplicationListener<ApplicationEvent>, Ordered {
