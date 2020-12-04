@@ -129,6 +129,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
             return beSuccess;
         } catch (Exception e) {
             logger.warn("Update Cache From Db Exception", e);
+            beSuccess = false;
             return beSuccess;
         }
     }

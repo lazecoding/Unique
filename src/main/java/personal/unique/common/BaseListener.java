@@ -75,6 +75,10 @@ public class BaseListener implements ServletContextListener, ServletRequestListe
             logger.debug("ApplicationStartedEvent...");
         } else if (applicationEvent instanceof ApplicationReadyEvent) {
             logger.debug("ApplicationReadyEvent...");
+            // 容器初始化完毕
+            // 执行系统生命周期行为:系统初始化
+            SystemCycle systemCycle = BeanUtil.getBean(SystemCycle.class);
+            systemCycle.init();
         } else if (applicationEvent instanceof ApplicationFailedEvent) {
             logger.debug("ApplicationFailedEvent...");
         }
