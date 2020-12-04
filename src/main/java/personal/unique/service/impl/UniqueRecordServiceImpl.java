@@ -68,7 +68,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
 
     @Override
     public boolean init() {
-        boolean beSuccess = updateCacheFromDb();
+        boolean beSuccess = updateTagsFromDb();
         if (beSuccess) {
             initSuccess = true;
         }
@@ -78,12 +78,12 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
     }
 
     /**
-     * Update Cache From Db
+     * Update Tags From Db
      *
      * @return
      */
-    private boolean updateCacheFromDb() {
-        logger.info("Update Cache From Db");
+    private boolean updateTagsFromDb() {
+        logger.info("Update Tags From Db Start");
         // 标识更新IdCache是否成功
         boolean beSuccess = false;
         try {
@@ -126,9 +126,10 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                 logger.info("Remove Tags In IdCache", tag);
             }
             beSuccess = true;
+            logger.info("Update Tags From Db Ready");
             return beSuccess;
         } catch (Exception e) {
-            logger.warn("Update Cache From Db Exception", e);
+            logger.warn("Update Tags From Db Exception", e);
             beSuccess = false;
             return beSuccess;
         }
@@ -150,7 +151,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
         service.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                updateCacheFromDb();
+                updateTagsFromDb();
             }
         }, 60, 60, TimeUnit.SECONDS);
     }
@@ -169,11 +170,11 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                     if (!buffer.isinitSuccess()) {
                         try {
                             updateSegmentFromDb(tag, buffer.getCurrent());
-                            logger.info("Init tag {} Buffer {} From Db", tag, buffer.getCurrent());
+                            logger.info("Init Tag {} Buffer {} From Db", tag, buffer.getCurrent());
                             // buffer 初始化成功
                             buffer.setinitSuccess(true);
                         } catch (Exception e) {
-                            logger.warn("Init tag {} Buffer {} From Db Exception", tag, buffer.getCurrent(), e);
+                            logger.warn("Init Tag {} Buffer {} From Db Exception", tag, buffer.getCurrent(), e);
                         }
                     }
                 }

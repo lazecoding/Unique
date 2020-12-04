@@ -19,16 +19,17 @@ public class CacheInit {
     private UniqueRecordService uniqueRecordService;
 
     /**
-     * 初始化 BufferCache
+     * 初始化 Tags
+     *
      * @return
      */
-    public boolean initCache() {
-        logger.info("OnStart To Init Cache Begin");
+    public boolean initTags() {
+        logger.info("Init Tags Strat");
         boolean flag = uniqueRecordService.init();
         if (flag) {
-            logger.info("OnStart To Init Cache Success");
+            logger.info("Init Tags Ready");
         } else {
-            logger.warn("OnStart To Init Cache Fail");
+            logger.warn("Init Tags Fail");
         }
         return flag;
     }

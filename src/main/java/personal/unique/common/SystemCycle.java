@@ -23,9 +23,8 @@ public class SystemCycle {
      */
     public void init() {
         logger.debug("SystemInit Start");
-        // 初始化 BufferCache
-        cacheInit.initCache();
-
+        // 初始化 Tags
+        cacheInit.initTags();
         logger.debug("SystemInit Ready");
     }
 }
