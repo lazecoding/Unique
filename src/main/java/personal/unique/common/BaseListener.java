@@ -61,6 +61,10 @@ public class BaseListener implements ServletContextListener, ServletRequestListe
             if (applicationEvent instanceof ContextRefreshedEvent) {
                 // 从源码可知该事件在spring的上下文被初始化和刷新时触发。这里的刷新其实就是指由ConfigurableApplicationContext定义的refresh方法，在重新加载属性文件等时调用。
                 logger.debug("ApplicationContextEvent - ContextRefreshedEvent...");
+                // 容器初始化完毕
+                // 执行系统生命周期行为:系统初始化
+                SystemCycle systemCycle = BeanUtil.getBean(SystemCycle.class);
+                systemCycle.init();
             } else if (applicationEvent instanceof ContextStartedEvent) {
                 // spring上下文启动完成触发,既ConfigurableApplicationContext的start方法。奇怪的是spring自己启动完成后触发的不是这个事件，而是上面的RefreshedEvent。
                 logger.debug("ApplicationContextEvent - ContextStartedEvent...");
@@ -75,10 +79,6 @@ public class BaseListener implements ServletContextListener, ServletRequestListe
             logger.debug("ApplicationStartedEvent...");
         } else if (applicationEvent instanceof ApplicationReadyEvent) {
             logger.debug("ApplicationReadyEvent...");
-            // 容器初始化完毕
-            // 执行系统生命周期行为:系统初始化
-            SystemCycle systemCycle = BeanUtil.getBean(SystemCycle.class);
-            systemCycle.init();
         } else if (applicationEvent instanceof ApplicationFailedEvent) {
             logger.debug("ApplicationFailedEvent...");
         }
