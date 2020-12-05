@@ -17,9 +17,9 @@ public class StackUtil {
     /**
      * 获取栈链路
      *
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTrace() {
+    public static TreeMap getStackTrace() {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -76,9 +76,9 @@ public class StackUtil {
      * 获取栈链路（过滤包含某个字符串）
      *
      * @param filter 过滤字符串
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTraceFilter(String filter) {
+    public static TreeMap getStackTraceFilter(String filter) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -112,7 +112,6 @@ public class StackUtil {
      * 打印栈链路（过滤包含某个字符串）
      *
      * @param filter 过滤字符串
-     * @return
      */
     public static void printStackTraceFilter(String filter) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
@@ -143,9 +142,9 @@ public class StackUtil {
      * 获取栈链路（过滤包含任意一个过滤字符串）
      *
      * @param filters 过滤字符串列表
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTraceFilter(List<String> filters) {
+    public static TreeMap getStackTraceFilter(List<String> filters) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -198,7 +197,6 @@ public class StackUtil {
      * 打印栈链路（过滤包含任意一个过滤字符串）
      *
      * @param filters 过滤字符串列表
-     * @return
      */
     public static void printStackTraceFilter(List<String> filters) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
@@ -248,9 +246,9 @@ public class StackUtil {
      * 获取栈链路(包含某个字符串)
      *
      * @param contain 包含字符串
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTraceContain(String contain) {
+    public static TreeMap getStackTraceContain(String contain) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -282,7 +280,6 @@ public class StackUtil {
      * 获取栈链路(包含某个字符串)
      *
      * @param contain 包含字符串
-     * @return
      */
     public static void printStackTraceContain(String contain) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
@@ -311,9 +308,9 @@ public class StackUtil {
      * 获取栈链路(包含任意一个contain)
      *
      * @param contains 包含字符串列表
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTraceContain(List<String> contains) {
+    public static TreeMap getStackTraceContain(List<String> contains) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -364,7 +361,6 @@ public class StackUtil {
      * 打印栈链路(包含任意一个contain)
      *
      * @param contains 包含字符串列表
-     * @return
      */
     public static void printStackTraceContain(List<String> contains) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
@@ -413,9 +409,9 @@ public class StackUtil {
      *
      * @param filters
      * @param contains
-     * @return
+     * @return TreeMap
      */
-    public static StackMap getStackTraceMerge(List<String> filters, List<String> contains) {
+    public static TreeMap getStackTraceMerge(List<String> filters, List<String> contains) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
         if (elements == null || elements.length <= 2) {
             return StackMap.getNilInstance();
@@ -490,7 +486,6 @@ public class StackUtil {
      *
      * @param filters
      * @param contains
-     * @return
      */
     public static void printStackTraceMerge(List<String> filters, List<String> contains) {
         StackTraceElement elements[] = Thread.currentThread().getStackTrace();
@@ -572,7 +567,7 @@ public class StackUtil {
      * @date: 2020/12/5 13:46
      * @description: 内部类
      */
-    public static class StackMap extends TreeMap<Integer, String> {
+    private static class StackMap extends TreeMap<Integer, String> {
         /**
          * 单例空Map
          */
@@ -586,15 +581,12 @@ public class StackUtil {
             return new StackMap(Comparator.reverseOrder());
         }
 
+        /**
+         *  获取空MAP常量实例
+         * @return
+         */
         public static StackMap getNilInstance() {
             return NISTACKMAP;
-        }
-
-        /**
-         * 控制台输出
-         */
-        public void print() {
-            System.out.println(toString());
         }
 
         @Override
