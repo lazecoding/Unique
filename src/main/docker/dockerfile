@@ -1,0 +1,10 @@
+# 指定存在的镜像，java:8，运行的基础。
+FROM java:8
+# 指向的一个临时文件，用于存储tomcat工作。
+VOLUME /tmp/tomcat
+# 维护者信息
+MAINTAINER lazecoding
+# 相当于重命名
+ ADD unique-0.0.1-SNAPSHOT.jar unique.jar
+# 配置容器
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","unique.jar"]
