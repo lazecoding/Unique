@@ -18,6 +18,7 @@
         <java.version>1.8</java.version>
         <mysql-connector-java.version>5.1.38</mysql-connector-java.version>
         <mybatis.version>1.2.2</mybatis.version>
+        <druid.version>1.2.3</druid.version>
         <docker.image.prefix>docker</docker.image.prefix>
     </properties>
 
@@ -51,6 +52,13 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${mybatis.version}</version>
+        </dependency>
+
+        <!-- druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
         </dependency>
     </dependencies>
 

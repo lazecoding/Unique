@@ -10,14 +10,67 @@ server:
 spring:
   application:
     name: unique
-  # 数据库配置信息,数据库字符集utf8mb4
   datasource:
+    # driver-class-name: com.mysql.cj.jdbc.Driver
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.222.333.111:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
-    username: root
-    password: 444
+    url: jdbc:mysql://47.**.***.***:**/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    username: ****
+    password: ****
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #初始化大小
+      initialSize: 5
+      #最小值
+      minIdle: 5
+      #最大值
+      maxActive: 20
+      #最大等待时间，配置获取连接等待超时，时间单位都是毫秒ms
+      maxWait: 60000
+      #配置间隔多久才进行一次检测，检测需要关闭的空闲连接
+      timeBetweenEvictionRunsMillis: 60000
+      #配置一个连接在池中最小生存的时间
+      minEvictableIdleTimeMillis: 300000
+      # validationQuery：Druid用来测试连接是否可用的SQL语句,默认值每种数据库都不相同：
+      # MySQL:SELECT 1;  听说MySQL是PING，配了不起作用
+      # SQLSERVER:SELECT 1;
+      # ORACLE:SELECT 'x' FROM DUAL;
+      # PostGresql:SELECT 'x';
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 开启缓存 MySQL建议关闭
+      poolPreparedStatements: false
+      #最大PSCache连接
+      maxPoolPreparedStatementPerConnectionSize: -1
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，
+      #'wall'用于防火墙，SpringBoot中没有log4j，我改成了log4j2
+      filters: stat,wall,log4j2
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      # 合并多个DruidDataSource的监控数据
+      useGlobalDataSourceStat: true
+      # 配置StatFilter
+      web-stat-filter:
+        #默认为false，设置为true启动
+        enabled: true
+        url-pattern: "/*"
+        # 设置不统计哪些URL
+        exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      #配置StatViewServlet
+      stat-view-servlet:
+        url-pattern: "/druid/*"
+        #允许那些ip,不配置默认全部
+        allow:
+        login-username: ****
+        login-password: ****
+        #禁止那些ip
+        deny: 192.168.1.102
+        #是否可以重置
+        reset-enable: true
+        #启用
+        enabled: true
 
-#Spring集成Mybatis环境
 mybatis:
   type-aliases-package: personal.unique.model
   mapper-locations: classpath:mapper/*Mapper.xml
