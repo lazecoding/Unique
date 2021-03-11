@@ -29,7 +29,7 @@
     </update>
 
     <select id="getUniqueRecord" resultMap="UniqueRecord">
-        SELECT bus_tag, max_id, step FROM unique_record WHERE bus_tag = #{tag} LIMIT 1
+        SELECT bus_tag, max_id, step FROM unique_record WHERE bus_tag = #{tag} LIMIT 1 FOR UPDATE
     </select>
 
     <update id="updateMaxIdByCustomStep">
