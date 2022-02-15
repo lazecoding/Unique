@@ -1,11 +1,10 @@
 # unique
 
-分布式ID生成服务
+分布式 ID 生成服务
 
 ### 介绍
 
-基于数据库号段生成分布式ID，每个业务应用设置一个业务标识，在unique_record插入一条记录。bus_tag为业务标识，max_id为最大值，
-step为标准步长，description为描述，update_time为上一次ID生成时间。
+基于数据库号段生成分布式 ID，每个业务应用设置一个业务标识，在 unique_record 插入一条记录。bus_tag 为业务标识，max_id 为最大值，step 为标准步长，description 为描述，update_time 为上一次ID生成时间。
 
 ### 环境准备
 
