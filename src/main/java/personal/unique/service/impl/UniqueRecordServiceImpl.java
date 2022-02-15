@@ -253,6 +253,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
     }
 
     public long getIdFromSegmentBuffer(final SegmentBuffer buffer) throws InitException {
+        // 循环，意在写锁内切换完 Segment，重新再读锁中获取 Id
         while (true) {
             //加读锁
             buffer.getReadLock().lock();
