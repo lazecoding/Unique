@@ -32,5 +32,9 @@ Request Method: GET
 Request URL: http://localhost:8090/druid/index.html
 
 
+## License
+
+Unique software is licenced under the Apache License Version 2.0. See the [LICENSE](https://github.com/lazecoding/Unique/blob/master/LICENSE) file for details.
+
 
 
