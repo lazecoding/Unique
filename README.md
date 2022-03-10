@@ -1,4 +1,4 @@
-# unique
+# Unique
 
 分布式 ID 生成服务
 
