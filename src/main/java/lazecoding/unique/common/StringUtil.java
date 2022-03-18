@@ -1,8 +1,7 @@
-package personal.unique.common;
+package lazecoding.unique.common;
 
 /**
  * @className: StringUtil
- * @package: personal.unique.common
  * @description:
  * @datetime: 2020/10/13   9:50
  * @author: lazecoding

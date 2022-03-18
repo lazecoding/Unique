@@ -1,4 +1,4 @@
-package personal.unique.common;
+package lazecoding.unique.common;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import personal.unique.init.CacheInit;
+import lazecoding.unique.init.CacheInit;
 
 /**
  * @author: lazecoding

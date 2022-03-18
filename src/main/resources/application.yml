@@ -9,7 +9,7 @@ server:
       force: true
 spring:
   application:
-    name: unique
+    name: Unique
   datasource:
     # driver-class-name: com.mysql.cj.jdbc.Driver
     driver-class-name: com.mysql.jdbc.Driver
@@ -72,7 +72,7 @@ spring:
         enabled: true
 
 mybatis:
-  type-aliases-package: personal.unique.model
+  type-aliases-package: lazecoding.unique.model
   mapper-locations: classpath:mapper/*Mapper.xml
   configuration:
     # Mybatis驼峰命名映射

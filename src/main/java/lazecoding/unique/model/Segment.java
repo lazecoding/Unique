@@ -1,10 +1,9 @@
-package personal.unique.model;
+package lazecoding.unique.model;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @className: Segment
- * @package: personal.unique.model
  * @description:
  * @datetime: 2020/10/12   22:50
  * @author: lazecoding

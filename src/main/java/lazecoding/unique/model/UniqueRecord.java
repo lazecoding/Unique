@@ -1,8 +1,7 @@
-package personal.unique.model;
+package lazecoding.unique.model;
 
 /**
  * @className: UniqueRecord
- * @package: personal.unique.model
  * @description:
  * @datetime: 2020/10/12   22:32
  * @author: lazecoding

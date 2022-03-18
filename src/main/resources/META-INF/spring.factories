@@ -1,1 +1,1 @@
-org.springframework.context.ApplicationListener=personal.unique.common.BaseListener
+org.springframework.context.ApplicationListener=lazecoding.unique.common.BaseListener

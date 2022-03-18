@@ -1,10 +1,9 @@
-package personal.unique.service;
+package lazecoding.unique.service;
 
-import personal.unique.exception.InitException;
+import lazecoding.unique.exception.InitException;
 
 /**
  * @className: UniqueRecordService
- * @package: personal.unique.service
  * @description:
  * @datetime: 2020/10/12   21:50
  * @author: lazecoding

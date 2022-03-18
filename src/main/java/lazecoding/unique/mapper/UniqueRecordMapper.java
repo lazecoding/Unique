@@ -1,14 +1,13 @@
-package personal.unique.mapper;
+package lazecoding.unique.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import personal.unique.model.UniqueRecord;
+import lazecoding.unique.model.UniqueRecord;
 
 import java.util.List;
 
 /**
  * @className: UniqueRecordMapper
- * @package: personal.unique.mapper
  * @description:
  * @datetime: 2020/10/12   21:17
  * @author: lazecoding

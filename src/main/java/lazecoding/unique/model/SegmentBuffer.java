@@ -1,4 +1,4 @@
-package personal.unique.model;
+package lazecoding.unique.model;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -8,7 +8,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @className: SegmentBuffer
- * @package: personal.unique.model
  * @description:
  * @datetime: 2020/10/12   22:57
  * @author: lazecoding

@@ -8,10 +8,10 @@
         <version>2.3.5.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>personal</groupId>
-    <artifactId>unique</artifactId>
+    <groupId>lazecoding</groupId>
+    <artifactId>Unique</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>unique</name>
+    <name>Unique</name>
     <description>Distributed ID Generate Service</description>
 
     <properties>

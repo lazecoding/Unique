@@ -1,8 +1,7 @@
-package personal.unique.exception;
+package lazecoding.unique.exception;
 
 /**
  * @className: InitException
- * @package: personal.unique.exception
  * @description:
  * @datetime: 2020/10/12   22:11
  * @author: lazecoding

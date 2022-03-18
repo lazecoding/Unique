@@ -1,17 +1,17 @@
-package personal.unique.service.impl;
+package lazecoding.unique.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.unique.exception.InitException;
-import personal.unique.exception.NilTagException;
-import personal.unique.mapper.UniqueRecordMapper;
-import personal.unique.model.Segment;
-import personal.unique.model.SegmentBuffer;
-import personal.unique.model.UniqueRecord;
-import personal.unique.service.UniqueRecordService;
+import lazecoding.unique.exception.InitException;
+import lazecoding.unique.exception.NilTagException;
+import lazecoding.unique.mapper.UniqueRecordMapper;
+import lazecoding.unique.model.Segment;
+import lazecoding.unique.model.SegmentBuffer;
+import lazecoding.unique.model.UniqueRecord;
+import lazecoding.unique.service.UniqueRecordService;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -19,7 +19,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @className: UniqueRecordServiceImpl
- * @package: personal.unique.service.impl
  * @description:
  * @datetime: 2020/10/12   21:50
  * @author: lazecoding

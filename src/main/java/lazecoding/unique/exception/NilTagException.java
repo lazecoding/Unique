@@ -1,8 +1,7 @@
-package personal.unique.exception;
+package lazecoding.unique.exception;
 
 /**
  * @className: NilTagException
- * @package: personal.unique.exception
  * @description:
  * @datetime: 2020/10/12   22:12
  * @author: lazecoding

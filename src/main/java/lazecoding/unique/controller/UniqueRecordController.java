@@ -1,4 +1,4 @@
-package personal.unique.controller;
+package lazecoding.unique.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,14 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import personal.unique.common.StringUtil;
-import personal.unique.exception.InitException;
-import personal.unique.exception.NilTagException;
-import personal.unique.service.UniqueRecordService;
+import lazecoding.unique.common.StringUtil;
+import lazecoding.unique.exception.InitException;
+import lazecoding.unique.exception.NilTagException;
+import lazecoding.unique.service.UniqueRecordService;
 
 /**
  * @className: UniqueRecordController
- * @package: personal.unique.controller
  * @description:
  * @datetime: 2020/10/12   21:19
  * @author: lazecoding

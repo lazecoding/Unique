@@ -29,8 +29,8 @@ Request URL: http://localhost:8090/api/get/unique-record-segment-test <br>
 Request Method: GET
 
 ### Druid 监控
-Request URL: http://localhost:8090/druid/index.html
 
+Request URL: http://localhost:8090/druid/index.html
 
 ## License
 

@@ -5,6 +5,6 @@ VOLUME /tmp/tomcat
 # 维护者信息
 MAINTAINER lazecoding
 # 相当于重命名
- ADD unique-0.0.1-SNAPSHOT.jar unique.jar
+ ADD Unique-0.0.1-SNAPSHOT.jar unique.jar
 # 配置容器
 ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","unique.jar"]

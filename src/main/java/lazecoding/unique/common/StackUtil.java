@@ -1,4 +1,4 @@
-package personal.unique.common;
+package lazecoding.unique.common;
 
 import java.util.*;
 
