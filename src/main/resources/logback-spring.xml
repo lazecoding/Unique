@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
-    <property name="PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${APP_NAME}] [%thread] %5p %c{0}:%L - %m%n"/>
-    <!-- 控制台彩色，但是日志文件不太好看 -->
-    <property name="PATTERNCONSOLE" value="%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %yellow([${APP_NAME}]) %green([%thread]) %highlight(%5p) %magenta(%c{0}:%L) - %cyan(%m%n)"/>
+    <!-- 文件日志 -->
+    <property name="PATTERN_FOR_LOG" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [${APP_NAME}] [%thread] %5p %c{0}:%L - %m%n"/>
+    <!-- 控制台日志 -->
+    <property name="PATTERN_FOR_CONSOLE" value="%red(%d{yyyy-MM-dd HH:mm:ss.SSS}) %yellow([${APP_NAME}]) %green([%thread]) %highlight(%5p) %magenta(%c{0}:%L) - %cyan(%m%n)"/>
     <property name="LOG_ROOT_PATH" value="logs"/>
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <Pattern>${PATTERN}</Pattern>
+            <Pattern>${PATTERN_FOR_CONSOLE}</Pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -25,7 +26,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder>
-            <pattern>${PATTERN}</pattern>
+            <pattern>${PATTERN_FOR_LOG}</pattern>
             <charset>utf-8</charset>
         </encoder>
     </appender>
@@ -43,7 +44,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder>
-            <pattern>${PATTERN}</pattern>
+            <pattern>${PATTERN_FOR_LOG}</pattern>
             <charset>utf-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印DEBUG日志 -->
@@ -66,7 +67,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder>
-            <pattern>${PATTERN}</pattern>
+            <pattern>${PATTERN_FOR_LOG}</pattern>
             <charset>utf-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印INFO日志 -->
@@ -89,7 +90,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder>
-            <pattern>${PATTERN}</pattern>
+            <pattern>${PATTERN_FOR_LOG}</pattern>
             <charset>utf-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印warn日志 -->
@@ -112,7 +113,7 @@
         </rollingPolicy>
         <append>true</append>
         <encoder>
-            <pattern>${PATTERN}</pattern>
+            <pattern>${PATTERN_FOR_LOG}</pattern>
             <charset>utf-8</charset>
         </encoder>
         <filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只打印error日志 -->
