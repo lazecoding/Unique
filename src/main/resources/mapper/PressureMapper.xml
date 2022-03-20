@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lazecoding.unique.pressure.mapper.PressureMapper">
+    <insert id="pressureUuid">
+        INSERT INTO pressure_uuid(uid,uname,soft) VALUES (#{uid},#{uname},#{soft});
+    </insert>
+
+    <insert id="pressureLong">
+        INSERT INTO pressure_long(uid,uname,soft) VALUES (#{uid},#{uname},#{soft});
+    </insert>
+</mapper>

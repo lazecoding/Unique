@@ -134,6 +134,6 @@
     </root>
 
     <!-- lazecoding.unique 包下 DEBUG -->
-    <logger name="lazecoding.unique" level="DEBUG" />
+    <logger name="lazecoding.unique" level="INFO" />
 
 </configuration>
