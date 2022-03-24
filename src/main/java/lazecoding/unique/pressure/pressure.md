@@ -45,7 +45,7 @@ ALTER TABLE pressure_long ADD INDEX i_long_ctime_id (ctime,uid);
 整理碎片后：
 
 <div align="left">
-    <img src="https://github.com/lazecoding/Unique/blob/master/src/main/resources/static/image/整理碎片后数据库表占用空间大小.png" width="600px">
+    <img src="https://github.com/lazecoding/Unique/blob/master/src/main/resources/static/pressure/整理碎片后数据库表占用空间大小.png" width="600px">
 </div>
 
 碎片率：
