@@ -7,9 +7,24 @@ package lazecoding.unique.model;
  * @author: lazecoding
  */
 public class UniqueRecord {
+    /**
+     * 唯一标识
+     */
     private String tag;
+
+    /**
+     * 最大步长（内存中最大值+1）
+     */
     private long maxId;
+
+    /**
+     * 步长
+     */
     private int step;
+
+    /**
+     * 更新事件
+     */
     private String updateTime;
 
     public String getTag() {

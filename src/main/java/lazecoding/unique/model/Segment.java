@@ -9,9 +9,24 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author: lazecoding
  */
 public class Segment {
+    /**
+     * 用来原子消费分布式 Id
+     */
     private AtomicLong value = new AtomicLong(0);
+
+    /**
+     * 这个 Segment 中最大值
+     */
     private volatile long max;
+
+    /**
+     * 该号段真实步长，即这个号段取了多少个数值
+     */
     private volatile int step;
+
+    /**
+     * 管理该 Segment 的 SegmentBuffer
+     */
     private SegmentBuffer buffer;
 
     public Segment(SegmentBuffer buffer) {

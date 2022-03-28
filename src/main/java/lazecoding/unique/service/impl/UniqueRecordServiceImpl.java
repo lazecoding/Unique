@@ -25,14 +25,15 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 @Service("UniqueRecordServiceImpl")
 public class UniqueRecordServiceImpl implements UniqueRecordService {
+
     private Logger logger = LoggerFactory.getLogger(UniqueRecordServiceImpl.class);
 
     /**
-     * 最大步长不超过100,0000
+     * 最大步长不超过 100,0000
      */
     private static final int MAX_STEP = 1000000;
     /**
-     * 一个Segment维持时间为15分钟
+     * 一个 Segment 维持时间为 15 分钟
      */
     private static final long SEGMENT_DURATION = 15 * 60 * 1000L;
     /**
@@ -111,7 +112,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                 segment.setMax(0);
                 segment.setStep(0);
                 IdCache.put(tag, buffer);
-                logger.info("Add Tags From Db To IdCache, SegmentBuffer {}", tag, buffer);
+                logger.info("Add Tags:[{}] From Db To IdCache, SegmentBuffer {}", tag, buffer);
             }
             for (int i = 0; i < dbTags.size(); i++) {
                 String tmp = dbTags.get(i);
@@ -122,13 +123,13 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
             }
             for (String tag : removeTagsSet) {
                 IdCache.remove(tag);
-                logger.info("Remove Tags In IdCache", tag);
+                logger.info("Remove Tags:[{}] In IdCache", tag);
             }
             beSuccess = true;
             logger.info("Update Tags From Db Ready");
             return beSuccess;
         } catch (Exception e) {
-            logger.warn("Update Tags From Db Exception", e);
+            logger.error("Update Tags From Db Exception:{}", e.getCause().toString());
             beSuccess = false;
             return beSuccess;
         }
@@ -169,18 +170,18 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                     if (!buffer.isinitSuccess()) {
                         try {
                             updateSegmentFromDb(tag, buffer.getCurrent());
-                            logger.info("Init Tag {} Buffer {} From Db", tag, buffer.getCurrent());
+                            logger.info("Init Tag [{}] Buffer [{}] From Db", tag, buffer.getCurrent());
                             // buffer 初始化成功
                             buffer.setinitSuccess(true);
                         } catch (Exception e) {
-                            logger.warn("Init Tag {} Buffer {} From Db Exception", tag, buffer.getCurrent(), e);
+                            logger.error("Init Tag [{}] Buffer [{}] From Db Exception:{}", tag, buffer.getCurrent(), e.getCause().toString());
                         }
                     }
                 }
             }
             return getIdFromSegmentBuffer(IdCache.get(tag));
         } else {
-            throw new NilTagException("IdCache中不存在tag:" + tag);
+            throw new NilTagException("IdCache 中不存在 tag:" + tag);
         }
     }
 
@@ -259,7 +260,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
             try {
                 final Segment segment = buffer.getCurrent();
                 // buffer.getThreadRunning() 标识整站初始化 防止同时出现多个线程初始化
-                if (!buffer.isNextReady() && (segment.getIdle() < segment.getStep() / 2) && buffer.getThreadRunning().compareAndSet(false, true)) {
+                if (!buffer.isNextReady() && (segment.getIdle() < segment.getStep() * 0.9) && buffer.getThreadRunning().compareAndSet(false, true)) {
                     service.execute(new Runnable() {
                         @Override
                         public void run() {
@@ -268,9 +269,9 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                             try {
                                 updateSegmentFromDb(buffer.getTag(), next);
                                 updateOk = true;
-                                logger.info("Update Buffer Segment {} From Db {}", buffer.getTag(), next);
+                                logger.info("Tag:[{}] Update Buffer Segment From Db,next Segment:[{}]", buffer.getTag(), next);
                             } catch (Exception e) {
-                                logger.warn(buffer.getTag() + " Update Buffer Segment From Db Exception", e);
+                                logger.error("Tag:[{}] Update Buffer Segment From Db Exception:{}", buffer.getTag(), e.getCause().toString());
                             } finally {
                                 if (updateOk) {
                                     // 加写锁
@@ -305,7 +306,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                     buffer.switchPos();
                     buffer.setNextReady(false);
                 } else {
-                    logger.error("Both Two Buffer Segments In {} Are Not Ready!", buffer);
+                    logger.error("Tag:[{}] Both Two Buffer Segments In [{}] Are Not Ready!", buffer.getTag(), buffer);
                     throw new InitException("SegmentBuffer中的两个Segment均未从DB中装载");
                 }
             } finally {
