@@ -13,7 +13,7 @@ public class UniqueRecord {
     private String tag;
 
     /**
-     * 最大步长（内存中最大值+1）
+     * 最大值
      */
     private long maxId;
 

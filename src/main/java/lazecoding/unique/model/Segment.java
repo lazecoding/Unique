@@ -15,7 +15,7 @@ public class Segment {
     private AtomicLong value = new AtomicLong(0);
 
     /**
-     * 这个 Segment 中最大值
+     * 这个 Segment 中最大值，开区间，无法达到的值
      */
     private volatile long max;
 
