@@ -1,58 +1,57 @@
-package lazecoding.unique.service.impl;
+package lazecoding.unique.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import lazecoding.unique.exception.InitException;
-import lazecoding.unique.exception.NilTagException;
+import lazecoding.unique.exception.NilParamException;
 import lazecoding.unique.mapper.UniqueRecordMapper;
 import lazecoding.unique.model.Segment;
 import lazecoding.unique.model.SegmentBuffer;
 import lazecoding.unique.model.UniqueRecord;
-import lazecoding.unique.service.UniqueRecordService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
- * @className: UniqueRecordServiceImpl
- * @description:
- * @datetime: 2020/10/12   21:50
- * @author: lazecoding
+ * SegmentBuffer 持有者
+ *
+ * @author liux
+ * @apiNote init() 初始化; getUniqueId() 获取分布式 Id。
  */
-@Service("UniqueRecordServiceImpl")
-public class UniqueRecordServiceImpl implements UniqueRecordService {
+@Component("bufferHolder")
+public class BufferHolder {
 
-    private Logger logger = LoggerFactory.getLogger(UniqueRecordServiceImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(BufferHolder.class);
 
     /**
      * 最大步长不超过 100,0000
      */
     private static final int MAX_STEP = 1000000;
+
     /**
      * 一个 Segment 维持时间为 15 分钟
      */
     private static final long SEGMENT_DURATION = 15 * 60 * 1000L;
+
+    /**
+     * 核心数
+     */
+    private static final int CORE_NUM = Math.max(4, Runtime.getRuntime().availableProcessors());
+
     /**
      * 线程池
      */
-    private ExecutorService service = new ThreadPoolExecutor(5, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), new UpdateThreadFactory());
-    /**
-     * 标识初始化是否成功
-     */
-    private volatile boolean initSuccess = false;
-    /**
-     * IdCache
-     */
-    private Map<String, SegmentBuffer> IdCache = new ConcurrentHashMap<String, SegmentBuffer>();
+    private final ExecutorService service = new ThreadPoolExecutor(CORE_NUM, CORE_NUM * 2, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()
+            , new BufferHolder.UpdateThreadFactory());
 
-    @Autowired
-    private UniqueRecordMapper uniqueRecordMapper;
-
-    public static class UpdateThreadFactory implements ThreadFactory {
+    /**
+     * 线程工厂
+     */
+    private static class UpdateThreadFactory implements ThreadFactory {
 
         private static int threadInitNumber = 0;
 
@@ -66,32 +65,45 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
         }
     }
 
-    @Override
+    /**
+     * 标识初始化是否成功
+     */
+    private volatile boolean initSuccess = false;
+
+    /**
+     * IdCache
+     */
+    private final Map<String, SegmentBuffer> IdCache = new ConcurrentHashMap<>();
+
+    @Autowired
+    private UniqueRecordMapper uniqueRecordMapper;
+
+    /**
+     * 初始化
+     */
     public boolean init() {
         boolean beSuccess = updateTagsFromDb();
         if (beSuccess) {
             initSuccess = true;
         }
         // 定时线程：更新IdCache
-        updateCacheFromDbAtEveryMinute();
+        updateCacheFromDbAtCycle();
         return initSuccess;
     }
 
     /**
      * Update Tags From Db
-     *
-     * @return
      */
     private boolean updateTagsFromDb() {
         logger.info("Update Tags From Db Start");
         // 标识更新IdCache是否成功
-        boolean beSuccess = false;
+        boolean isSuccess = false;
         try {
             // 获取数据库中全部 bus_tag
             List<String> dbTags = uniqueRecordMapper.getAllTags();
             if (dbTags == null || dbTags.isEmpty()) {
-                beSuccess = true;
-                return beSuccess;
+                isSuccess = true;
+                return isSuccess;
             }
             // IdCache 中的全部 bus_tag
             List<String> cacheTags = new ArrayList<String>(IdCache.keySet());
@@ -99,10 +111,8 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
             Set<String> removeTagsSet = new HashSet<>(cacheTags);
             for (int i = 0; i < cacheTags.size(); i++) {
                 String tmp = cacheTags.get(i);
-                if (insertTagsSet.contains(tmp)) {
-                    // 数据库新增的 bus_tag
-                    insertTagsSet.remove(tmp);
-                }
+                // 移除内存中已经有的，得到数据库新增的 bus_tag
+                insertTagsSet.remove(tmp);
             }
             for (String tag : insertTagsSet) {
                 SegmentBuffer buffer = new SegmentBuffer();
@@ -112,51 +122,47 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                 segment.setMax(0);
                 segment.setStep(0);
                 IdCache.put(tag, buffer);
-                logger.info("Add Tags:[{}] From Db To IdCache, SegmentBuffer {}", tag, buffer);
+                logger.info("Add Tags From Db To IdCache, SegmentBuffer:[{}]", tag, buffer);
             }
             for (int i = 0; i < dbTags.size(); i++) {
                 String tmp = dbTags.get(i);
-                if (removeTagsSet.contains(tmp)) {
-                    // 数据库中已经不存在的 bus_tag
-                    removeTagsSet.remove(tmp);
-                }
+                // 内存中 bus_tag，再移除数据库中有的，剩下的就是内存中有，但是数据库中没有的
+                // 也就是需要移除的 bus_tag
+                removeTagsSet.remove(tmp);
             }
             for (String tag : removeTagsSet) {
                 IdCache.remove(tag);
                 logger.info("Remove Tags:[{}] In IdCache", tag);
             }
-            beSuccess = true;
+            isSuccess = true;
             logger.info("Update Tags From Db Ready");
-            return beSuccess;
+            return isSuccess;
         } catch (Exception e) {
-            logger.error("Update Tags From Db Exception:{}", e.getCause().toString());
-            beSuccess = false;
-            return beSuccess;
+            logger.error("Update Tags From Db Exception:[{}] ", e.getCause().toString());
+            isSuccess = false;
+            return isSuccess;
         }
     }
 
     /**
      * 定时线程：Update Cache From Db
      */
-    private void updateCacheFromDbAtEveryMinute() {
+    private void updateCacheFromDbAtCycle() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r);
-                t.setName("Update-IdCache-Thread");
+                t.setName("Update-IdCache-Task");
                 t.setDaemon(true);
                 return t;
             }
         });
-        service.scheduleWithFixedDelay(new Runnable() {
-            @Override
-            public void run() {
-                updateTagsFromDb();
-            }
-        }, 60, 60, TimeUnit.SECONDS);
+        service.scheduleWithFixedDelay(this::updateTagsFromDb, 60, 60, TimeUnit.SECONDS);
     }
 
-    @Override
+    /**
+     * 获取分布式 Id
+     */
     public long getUniqueId(String tag) throws InitException {
         if (!initSuccess) {
             throw new InitException("IdCache 未初始化");
@@ -164,37 +170,34 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
         if (IdCache.containsKey(tag)) {
             SegmentBuffer buffer = IdCache.get(tag);
             // buffer 未更新先更新buffer
-            if (!buffer.isinitSuccess()) {
+            if (!buffer.isInitSuccess()) {
                 synchronized (buffer) {
                     // 双重校验防止被其他线程更新了
-                    if (!buffer.isinitSuccess()) {
+                    if (!buffer.isInitSuccess()) {
                         try {
                             updateSegmentFromDb(tag, buffer.getCurrent());
-                            logger.info("Init Tag [{}] Buffer [{}] From Db", tag, buffer.getCurrent());
+                            logger.info("Init Tag:[{}] Buffer:[{}] From Db ", tag, buffer.getCurrent());
                             // buffer 初始化成功
                             buffer.setinitSuccess(true);
                         } catch (Exception e) {
-                            logger.error("Init Tag [{}] Buffer [{}] From Db Exception:{}", tag, buffer.getCurrent(), e.getCause().toString());
+                            logger.error("Init Tag:[{}] Buffer:[{}] From Db Exception:[{}] ", tag, buffer.getCurrent(), e.getCause().toString());
                         }
                     }
                 }
             }
             return getIdFromSegmentBuffer(IdCache.get(tag));
         } else {
-            throw new NilTagException("IdCache 中不存在 tag:" + tag);
+            throw new NilParamException("IdCache 中不存在 tag:" + tag);
         }
     }
 
     /**
      * Update Buffer Segment From Db
-     *
-     * @param tag
-     * @param segment
      */
-    public void updateSegmentFromDb(String tag, Segment segment) {
+    private void updateSegmentFromDb(String tag, Segment segment) {
         SegmentBuffer buffer = segment.getBuffer();
-        UniqueRecord uniqueRecord = null;
-        if (!buffer.isinitSuccess()) {
+        UniqueRecord uniqueRecord;
+        if (!buffer.isInitSuccess()) {
             //未初始化
             // bus_tag 更新并获取max_id
             uniqueRecord = updateMaxIdAndGetUniqueRecord(tag);
@@ -237,12 +240,18 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
         segment.setStep(buffer.getStep());
     }
 
+    /**
+     * 申请号段
+     */
     @Transactional
     public UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
         uniqueRecordMapper.updateMaxId(tag);
         return uniqueRecordMapper.getUniqueRecord(tag);
     }
 
+    /**
+     * 申请号段
+     */
     @Transactional
     public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(UniqueRecord uniqueRecord) {
         String tag = uniqueRecord.getTag();
@@ -252,36 +261,41 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
 
     }
 
-    public long getIdFromSegmentBuffer(final SegmentBuffer buffer) throws InitException {
+    /**
+     * 获取分布式 Id 核心代码，保证线程安全。
+     *
+     * @param buffer
+     * @return
+     * @throws InitException
+     */
+    private long getIdFromSegmentBuffer(final SegmentBuffer buffer) throws InitException {
         // 循环，意在写锁内切换完 Segment，重新再读锁中获取 Id
         while (true) {
             //加读锁
             buffer.getReadLock().lock();
             try {
                 final Segment segment = buffer.getCurrent();
-                // buffer.getThreadRunning() 标识整站初始化 防止同时出现多个线程初始化
-                if (!buffer.isNextReady() && (segment.getIdle() < segment.getStep() * 0.9) && buffer.getThreadRunning().compareAndSet(false, true)) {
-                    service.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            Segment next = buffer.getSegments()[buffer.nextPos()];
-                            boolean updateOk = false;
-                            try {
-                                updateSegmentFromDb(buffer.getTag(), next);
-                                updateOk = true;
-                                logger.info("Tag:[{}] Update Buffer Segment From Db,next Segment:[{}]", buffer.getTag(), next);
-                            } catch (Exception e) {
-                                logger.error("Tag:[{}] Update Buffer Segment From Db Exception:{}", buffer.getTag(), e.getCause().toString());
-                            } finally {
-                                if (updateOk) {
-                                    // 加写锁
-                                    buffer.getWriteLock().lock();
-                                    buffer.setNextReady(true);
-                                    buffer.getThreadRunning().set(false);
-                                    buffer.getWriteLock().unlock();
-                                } else {
-                                    buffer.getThreadRunning().set(false);
-                                }
+                // buffer.getThreadRunning() 标识正在初始化 防止同时出现多个线程初始化
+                if (!buffer.isNextReady() && (segment.getIdle() < segment.getStep() * 0.9)
+                        && buffer.getThreadRunning().compareAndSet(false, true)) {
+                    service.execute(() -> {
+                        Segment next = buffer.getSegments()[buffer.nextPos()];
+                        boolean updateOk = false;
+                        try {
+                            updateSegmentFromDb(buffer.getTag(), next);
+                            updateOk = true;
+                            logger.info("Tag:[{}] Update Buffer Segment From Db [{}]", buffer.getTag(), next);
+                        } catch (Exception e) {
+                            logger.error("Tag:[{}] Update Buffer Segment From Db Exception:[{}]", buffer.getTag(), e.getCause().toString());
+                        } finally {
+                            if (updateOk) {
+                                // 加写锁
+                                buffer.getWriteLock().lock();
+                                buffer.setNextReady(true);
+                                buffer.getThreadRunning().set(false);
+                                buffer.getWriteLock().unlock();
+                            } else {
+                                buffer.getThreadRunning().set(false);
                             }
                         }
                     });
@@ -307,7 +321,7 @@ public class UniqueRecordServiceImpl implements UniqueRecordService {
                     buffer.setNextReady(false);
                 } else {
                     logger.error("Tag:[{}] Both Two Buffer Segments In [{}] Are Not Ready!", buffer.getTag(), buffer);
-                    throw new InitException("SegmentBuffer中的两个Segment均未从DB中装载");
+                    throw new InitException("SegmentBuffer 中的两个 Segment 均未从 DB 中装载");
                 }
             } finally {
                 buffer.getWriteLock().unlock();

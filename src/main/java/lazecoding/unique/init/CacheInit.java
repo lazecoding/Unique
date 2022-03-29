@@ -1,10 +1,10 @@
 package lazecoding.unique.init;
 
+import lazecoding.unique.service.BufferHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import lazecoding.unique.service.UniqueRecordService;
 
 /**
  * @author: lazecoding
@@ -16,7 +16,7 @@ public class CacheInit {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UniqueRecordService uniqueRecordService;
+    private BufferHolder bufferHolder;
 
     /**
      * 初始化 Tags
@@ -25,7 +25,7 @@ public class CacheInit {
      */
     public boolean initTags() {
         logger.info("Init Tags Strat");
-        boolean flag = uniqueRecordService.init();
+        boolean flag = bufferHolder.init();
         if (flag) {
             logger.info("Init Tags Ready");
         } else {

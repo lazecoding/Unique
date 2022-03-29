@@ -101,7 +101,7 @@ public class SegmentBuffer {
         currentPos = nextPos();
     }
 
-    public boolean isinitSuccess() {
+    public boolean isInitSuccess() {
         return initSuccess;
     }
 
