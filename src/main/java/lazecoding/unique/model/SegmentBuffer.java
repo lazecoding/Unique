@@ -105,7 +105,7 @@ public class SegmentBuffer {
         return initSuccess;
     }
 
-    public void setinitSuccess(boolean initSuccess) {
+    public void setInitSuccess(boolean initSuccess) {
         this.initSuccess = initSuccess;
     }
 

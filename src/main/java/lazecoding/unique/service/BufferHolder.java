@@ -178,7 +178,7 @@ public class BufferHolder {
                             updateSegmentFromDb(tag, buffer.getCurrent());
                             logger.info("Init Tag:[{}] Buffer:[{}] From Db ", tag, buffer.getCurrent());
                             // buffer 初始化成功
-                            buffer.setinitSuccess(true);
+                            buffer.setInitSuccess(true);
                         } catch (Exception e) {
                             logger.error("Init Tag:[{}] Buffer:[{}] From Db Exception:[{}] ", tag, buffer.getCurrent(), e.getCause().toString());
                         }
@@ -199,12 +199,8 @@ public class BufferHolder {
         UniqueRecord uniqueRecord;
         if (!buffer.isInitSuccess()) {
             //未初始化
-            // bus_tag 更新并获取max_id
-            uniqueRecord = updateMaxIdAndGetUniqueRecord(tag);
-            buffer.setStep(uniqueRecord.getStep());
-            buffer.setMinStep(uniqueRecord.getStep());
-        } else if (buffer.getUpdateTimestamp() == 0) {
-            uniqueRecord = updateMaxIdAndGetUniqueRecord(tag);
+            // apply record
+            uniqueRecord = this.updateMaxIdAndGetUniqueRecord(tag);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(uniqueRecord.getStep());
             buffer.setMinStep(uniqueRecord.getStep());
@@ -228,7 +224,8 @@ public class BufferHolder {
             UniqueRecord temp = new UniqueRecord();
             temp.setTag(tag);
             temp.setStep(nextStep);
-            uniqueRecord = updateMaxIdByCustomStepAndGetLeafAlloc(temp);
+            // apply record
+            uniqueRecord = this.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(nextStep);
             buffer.setMinStep(uniqueRecord.getStep());
