@@ -82,20 +82,21 @@ public class BufferHolder {
      * 初始化
      */
     public boolean init() {
-        boolean beSuccess = updateTagsFromDb();
+        // Sync Tags IN Db/Cache
+        boolean beSuccess = syncTagsFromDb();
         if (beSuccess) {
             initSuccess = true;
         }
-        // 定时线程：更新IdCache
-        updateCacheFromDbAtCycle();
+        // 定时线程：Sync Cache
+        sycnCacheAtCycle();
         return initSuccess;
     }
 
     /**
-     * Update Tags From Db
+     * Sync Tags IN Db/Cache
      */
-    private boolean updateTagsFromDb() {
-        logger.info("Update Tags From Db Start");
+    private boolean syncTagsFromDb() {
+        logger.info("Sync Tags IN Db/Cache Start");
         // 标识更新IdCache是否成功
         boolean isSuccess = false;
         try {
@@ -135,29 +136,29 @@ public class BufferHolder {
                 logger.info("Remove Tags:[{}] In IdCache", tag);
             }
             isSuccess = true;
-            logger.info("Update Tags From Db Ready");
+            logger.info("Sync Tags IN Db/Cache Ready");
             return isSuccess;
         } catch (Exception e) {
-            logger.error("Update Tags From Db Exception:[{}] ", e.getCause().toString());
+            logger.error("Sync Tags IN Db/Cache Exception:[{}] ", e.getCause().toString());
             isSuccess = false;
             return isSuccess;
         }
     }
 
     /**
-     * 定时线程：Update Cache From Db
+     * 定时线程：Sync Tags IN Db/Cache
      */
-    private void updateCacheFromDbAtCycle() {
+    private void sycnCacheAtCycle() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
                 Thread t = new Thread(r);
-                t.setName("Update-IdCache-Task");
+                t.setName("Sync-Cache-Task");
                 t.setDaemon(true);
                 return t;
             }
         });
-        service.scheduleWithFixedDelay(this::updateTagsFromDb, 60, 60, TimeUnit.SECONDS);
+        service.scheduleWithFixedDelay(this::syncTagsFromDb, 60, 60, TimeUnit.SECONDS);
     }
 
     /**
@@ -175,7 +176,7 @@ public class BufferHolder {
                     // 双重校验防止被其他线程更新了
                     if (!buffer.isInitSuccess()) {
                         try {
-                            updateSegmentFromDb(tag, buffer.getCurrent());
+                            applySegmentFromDb(tag, buffer.getCurrent());
                             logger.info("Init Tag:[{}] Buffer:[{}] From Db ", tag, buffer.getCurrent());
                             // buffer 初始化成功
                             buffer.setInitSuccess(true);
@@ -192,9 +193,9 @@ public class BufferHolder {
     }
 
     /**
-     * Update Buffer Segment From Db
+     * Apply Buffer Segment From Db
      */
-    private void updateSegmentFromDb(String tag, Segment segment) {
+    private void applySegmentFromDb(String tag, Segment segment) {
         SegmentBuffer buffer = segment.getBuffer();
         UniqueRecord uniqueRecord;
         if (!buffer.isInitSuccess()) {
@@ -279,7 +280,7 @@ public class BufferHolder {
                         Segment next = buffer.getSegments()[buffer.nextPos()];
                         boolean updateOk = false;
                         try {
-                            updateSegmentFromDb(buffer.getTag(), next);
+                            applySegmentFromDb(buffer.getTag(), next);
                             updateOk = true;
                             logger.info("Tag:[{}] Update Buffer Segment From Db [{}]", buffer.getTag(), next);
                         } catch (Exception e) {
