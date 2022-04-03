@@ -1,7 +1,7 @@
 package lazecoding.unique.service;
 
 import lazecoding.unique.exception.InitException;
-import lazecoding.unique.exception.NilParamException;
+import lazecoding.unique.exception.NilTagException;
 import lazecoding.unique.mapper.UniqueRecordMapper;
 import lazecoding.unique.model.Segment;
 import lazecoding.unique.model.SegmentBuffer;
@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * SegmentBuffer 持有者
  *
- * @author liux
+ * @author lazecoding
  * @apiNote init() 初始化; getUniqueId() 获取分布式 Id。
  */
 @Component("bufferHolder")
@@ -188,7 +188,7 @@ public class BufferHolder {
             }
             return getIdFromSegmentBuffer(IdCache.get(tag));
         } else {
-            throw new NilParamException("IdCache 中不存在 tag:" + tag);
+            throw new NilTagException("IdCache 中不存在 tag:" + tag);
         }
     }
 

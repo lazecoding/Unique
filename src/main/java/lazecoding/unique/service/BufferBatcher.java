@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 批量操作类
  *
- * @author liux
+ * @author lazecoding
  */
 @Component("bufferBatcher")
 public class BufferBatcher {
