@@ -75,6 +75,15 @@ public class BufferHolder {
      */
     private final Map<String, SegmentBuffer> IdCache = new ConcurrentHashMap<>();
 
+    /**
+     * 获取 IdCache
+     *
+     * @return IdCache
+     */
+    public Map<String, SegmentBuffer> getIdCache() {
+        return IdCache;
+    }
+
     @Autowired
     private UniqueRecordMapper uniqueRecordMapper;
 
@@ -93,6 +102,13 @@ public class BufferHolder {
     }
 
     /**
+     * 获取数据库中全部 bus_tag
+     */
+    public List<String> getAllTags(){
+        return uniqueRecordMapper.getAllTags();
+    }
+
+    /**
      * Sync Tags IN Db/Cache
      */
     private boolean syncTagsFromDb() {
@@ -101,7 +117,7 @@ public class BufferHolder {
         boolean isSuccess = false;
         try {
             // 获取数据库中全部 bus_tag
-            List<String> dbTags = uniqueRecordMapper.getAllTags();
+            List<String> dbTags = this.getAllTags();
             if (dbTags == null || dbTags.isEmpty()) {
                 isSuccess = true;
                 return isSuccess;
