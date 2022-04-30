@@ -264,7 +264,7 @@ public class BufferHolder {
     }
 
     /**
-     * 申请号段
+     * 申请号段（自定义步长）
      */
     @Transactional
     public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(UniqueRecord uniqueRecord) {
