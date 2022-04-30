@@ -1,6 +1,8 @@
-# Unique
+# Unique release-1.X.X
 
-分布式 ID 生成服务
+分布式 ID 生成服务 `release-2.X.X`。
+
+推荐：[Unique release-2.X.X](https://github.com/lazecoding/Unique/blob/release-2.0.0/README.md)
 
 ### 介绍
 
@@ -34,7 +36,7 @@ Request URL: http://localhost:8090/druid/index.html
 
 ## License
 
-Unique software is licenced under the Apache License Version 2.0. See the [LICENSE](https://github.com/lazecoding/Unique/blob/master/LICENSE) file for details.
+Unique software is licenced under the Apache License Version 2.0. See the [LICENSE](https://github.com/lazecoding/Unique/blob/release-1.0.0/LICENSE) file for details.
 
 
 
