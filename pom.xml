@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>lazecoding</groupId>
-    <artifactId>Unique</artifactId>
+    <artifactId>unique</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Unique</name>
     <description>Distributed ID Generate Service</description>
