@@ -1,6 +1,6 @@
-# Unique
+# Unique release-2.X.X
 
-分布式 ID 生成服务
+分布式 ID 生成服务 `release-2.X.X`，客户端和服务端分离。
 
 ### 介绍
 
@@ -25,16 +25,13 @@ INSERT INTO unique_record(bus_tag, max_id, step, description) VALUES ('unique-re
 
 ### 接口
 
-Request URL: http://localhost:8090/api/get/unique-record-segment-test <br>
-Request Method: GET
-
 ### Druid 监控
 
 Request URL: http://localhost:8090/druid/index.html
 
 ## License
 
-Unique software is licenced under the Apache License Version 2.0. See the [LICENSE](https://github.com/lazecoding/Unique/blob/master/LICENSE) file for details.
+Unique software is licenced under the Apache License Version 2.0. See the [LICENSE](https://github.com/lazecoding/Unique/blob/release-2.0.0/LICENSE) file for details.
 
 
 
