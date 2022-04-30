@@ -10,7 +10,7 @@
     </parent>
     <groupId>lazecoding</groupId>
     <artifactId>unique</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>release-1.0.0</version>
     <name>Unique</name>
     <description>Distributed ID Generate Service</description>
 
