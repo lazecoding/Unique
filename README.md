@@ -1,8 +1,8 @@
 # Unique release-1.X.X
 
-分布式 ID 生成服务 `release-2.X.X`。
+分布式 ID 生成服务 `release-1.X.X`。
 
-推荐：[Unique release-2.X.X](https://github.com/lazecoding/Unique/blob/release-2.0.0/README.md)
+推荐：[Unique release-2.X.X](https://github.com/lazecoding/Unique/blob/master/README.md)
 
 ### 介绍
 
