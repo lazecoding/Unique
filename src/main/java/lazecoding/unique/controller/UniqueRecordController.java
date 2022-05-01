@@ -1,6 +1,5 @@
 package lazecoding.unique.controller;
 
-import lazecoding.unique.common.StringUtil;
 import lazecoding.unique.exception.InitException;
 import lazecoding.unique.exception.NilParamException;
 import lazecoding.unique.service.BufferBatcher;
@@ -8,6 +7,7 @@ import lazecoding.unique.service.BufferHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class UniqueRecordController {
     @RequestMapping(value = "/api/get/{tag}", method = RequestMethod.GET)
     @ResponseBody
     public long getUniqueId(@PathVariable("tag") String tag) throws InitException {
-        if (StringUtil.isEmpty(tag)) {
+        if (!StringUtils.hasText(tag)) {
             throw new NilParamException("未正确输入tag" + tag);
         }
         return bufferHolder.getUniqueId(tag);
@@ -41,7 +41,7 @@ public class UniqueRecordController {
     @RequestMapping(value = "/api/batch/{tag}/{size}", method = RequestMethod.GET)
     @ResponseBody
     public List<Long> batch(@PathVariable("tag") String tag, @PathVariable("size") Integer size) throws InitException {
-        if (StringUtil.isEmpty(tag)) {
+        if (!StringUtils.hasText(tag)) {
             throw new NilParamException("tag 不得为空");
         }
         if (size == null) {

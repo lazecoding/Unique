@@ -8,42 +8,16 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.*;
 import org.springframework.core.Ordered;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.annotation.WebListener;
-
 /**
  * @author: lazecoding
  * @date: 2020/12/3 22:49
  * @description: Listener 扩展
  */
-@WebListener
-public class BaseListener implements ServletContextListener, ServletRequestListener, ApplicationListener<ApplicationEvent>, Ordered {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+public class BaseListener implements ApplicationListener<ApplicationEvent>, Ordered {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public BaseListener() {
-    }
-
-    @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
-        logger.debug("BaseListener starting...");
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        logger.debug("BaseListener ending...");
-    }
-
-    @Override
-    public void requestInitialized(ServletRequestEvent servletRequestEvent) {
-        logger.debug("BaseListener RequestEvent starting...");
-    }
-
-    @Override
-    public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
-        logger.debug("BaseListener RequestEvent ending...");
     }
 
     @Override
