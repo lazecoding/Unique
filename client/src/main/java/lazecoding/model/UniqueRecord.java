@@ -1,4 +1,4 @@
-package lazecoding.unique.model;
+package lazecoding.model;
 
 /**
  * @className: UniqueRecord

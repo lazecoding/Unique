@@ -1,16 +1,12 @@
-package lazecoding.unique.service;
+package lazecoding.service;
 
-import lazecoding.unique.exception.InitException;
-import lazecoding.unique.exception.NilTagException;
-import lazecoding.unique.mapper.UniqueRecordMapper;
-import lazecoding.unique.model.Segment;
-import lazecoding.unique.model.SegmentBuffer;
-import lazecoding.unique.model.UniqueRecord;
+import lazecoding.exception.InitException;
+import lazecoding.exception.NilTagException;
+import lazecoding.model.Segment;
+import lazecoding.model.SegmentBuffer;
+import lazecoding.model.UniqueRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -22,10 +18,9 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author lazecoding
  * @apiNote init() 初始化; getUniqueId() 获取分布式 Id。
  */
-@Component("bufferHolder")
 public class BufferHolder {
 
-    private final Logger logger = LoggerFactory.getLogger(BufferHolder.class);
+    private static final Logger logger = LoggerFactory.getLogger(BufferHolder.class);
 
     /**
      * 最大步长不超过 100,0000
@@ -45,8 +40,8 @@ public class BufferHolder {
     /**
      * 线程池
      */
-    private final ExecutorService service = new ThreadPoolExecutor(CORE_NUM, CORE_NUM * 2, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()
-            , new BufferHolder.UpdateThreadFactory());
+    private static final ExecutorService service = new ThreadPoolExecutor(CORE_NUM, CORE_NUM * 2, 60L, TimeUnit.SECONDS, new SynchronousQueue<>()
+            , new UpdateThreadFactory());
 
     /**
      * 线程工厂
@@ -68,29 +63,26 @@ public class BufferHolder {
     /**
      * 标识初始化是否成功
      */
-    private volatile boolean initSuccess = false;
+    private static volatile boolean initSuccess = false;
 
     /**
      * IdCache
      */
-    private final Map<String, SegmentBuffer> IdCache = new ConcurrentHashMap<>();
+    private static final Map<String, SegmentBuffer> IdCache = new ConcurrentHashMap<>();
 
     /**
      * 获取 IdCache
      *
      * @return IdCache
      */
-    public Map<String, SegmentBuffer> getIdCache() {
+    public static Map<String, SegmentBuffer> getIdCache() {
         return IdCache;
     }
-
-    @Autowired
-    private UniqueRecordMapper uniqueRecordMapper;
 
     /**
      * 初始化
      */
-    public boolean init() {
+    public static boolean init() {
         // Sync Tags IN Db/Cache
         boolean beSuccess = syncTagsFromDb();
         if (beSuccess) {
@@ -102,22 +94,16 @@ public class BufferHolder {
     }
 
     /**
-     * 获取数据库中全部 bus_tag
-     */
-    public List<String> getAllTags(){
-        return uniqueRecordMapper.getAllTags();
-    }
-
-    /**
      * Sync Tags IN Db/Cache
      */
-    private boolean syncTagsFromDb() {
+    private static boolean syncTagsFromDb() {
         logger.info("Sync Tags IN Db/Cache Start");
         // 标识更新IdCache是否成功
         boolean isSuccess = false;
         try {
             // 获取数据库中全部 bus_tag
-            List<String> dbTags = this.getAllTags();
+            // TODO 按业务分组
+            List<String> dbTags = BufferRest.getAllTags();
             if (dbTags == null || dbTags.isEmpty()) {
                 isSuccess = true;
                 return isSuccess;
@@ -164,7 +150,7 @@ public class BufferHolder {
     /**
      * 定时线程：Sync Tags IN Db/Cache
      */
-    private void sycnCacheAtCycle() {
+    private static void sycnCacheAtCycle() {
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(new ThreadFactory() {
             @Override
             public Thread newThread(Runnable r) {
@@ -174,13 +160,13 @@ public class BufferHolder {
                 return t;
             }
         });
-        service.scheduleWithFixedDelay(this::syncTagsFromDb, 60, 60, TimeUnit.SECONDS);
+        service.scheduleWithFixedDelay(BufferHolder::syncTagsFromDb, 60, 60, TimeUnit.SECONDS);
     }
 
     /**
      * 获取分布式 Id
      */
-    public long getUniqueId(String tag) throws InitException {
+    public static long getUniqueId(String tag) throws InitException {
         if (!initSuccess) {
             throw new InitException("IdCache 未初始化");
         }
@@ -211,13 +197,13 @@ public class BufferHolder {
     /**
      * Apply Buffer Segment From Db
      */
-    private void applySegmentFromDb(String tag, Segment segment) {
+    private static void applySegmentFromDb(String tag, Segment segment) {
         SegmentBuffer buffer = segment.getBuffer();
         UniqueRecord uniqueRecord;
         if (!buffer.isInitSuccess()) {
             //未初始化
             // apply record
-            uniqueRecord = this.updateMaxIdAndGetUniqueRecord(tag);
+            uniqueRecord = BufferRest.updateMaxIdAndGetUniqueRecord(tag);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(uniqueRecord.getStep());
             buffer.setMinStep(uniqueRecord.getStep());
@@ -242,7 +228,7 @@ public class BufferHolder {
             temp.setTag(tag);
             temp.setStep(nextStep);
             // apply record
-            uniqueRecord = this.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
+            uniqueRecord = BufferRest.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(nextStep);
             buffer.setMinStep(uniqueRecord.getStep());
@@ -255,34 +241,13 @@ public class BufferHolder {
     }
 
     /**
-     * 申请号段
-     */
-    @Transactional
-    public UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
-        uniqueRecordMapper.updateMaxId(tag);
-        return uniqueRecordMapper.getUniqueRecord(tag);
-    }
-
-    /**
-     * 申请号段（自定义步长）
-     */
-    @Transactional
-    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(UniqueRecord uniqueRecord) {
-        String tag = uniqueRecord.getTag();
-        int step = uniqueRecord.getStep();
-        uniqueRecordMapper.updateMaxIdByCustomStep(tag, step);
-        return uniqueRecordMapper.getUniqueRecord(tag);
-
-    }
-
-    /**
      * 获取分布式 Id 核心代码，保证线程安全。
      *
      * @param buffer
      * @return
      * @throws InitException
      */
-    private long getIdFromSegmentBuffer(final SegmentBuffer buffer) throws InitException {
+    private static long getIdFromSegmentBuffer(final SegmentBuffer buffer) throws InitException {
         // 循环，意在写锁内切换完 Segment，重新再读锁中获取 Id
         while (true) {
             //加读锁

@@ -1,0 +1,49 @@
+package lazecoding.unique.service;
+
+import lazecoding.model.UniqueRecord;
+import lazecoding.unique.mapper.UniqueRecordMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * SegmentManager
+ *
+ * @author lazecoding
+ */
+@Component("segmentManager")
+public class SegmentManager {
+
+    @Autowired
+    private UniqueRecordMapper uniqueRecordMapper;
+
+    /**
+     * 获取数据库中全部 bus_tag
+     */
+    public List<String> getAllTags() {
+        return uniqueRecordMapper.getAllTags();
+    }
+
+    /**
+     * 申请号段
+     */
+    @Transactional
+    public UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
+        uniqueRecordMapper.updateMaxId(tag);
+        return uniqueRecordMapper.getUniqueRecord(tag);
+    }
+
+    /**
+     * 申请号段（自定义步长）
+     */
+    @Transactional
+    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(UniqueRecord uniqueRecord) {
+        String tag = uniqueRecord.getTag();
+        int step = uniqueRecord.getStep();
+        uniqueRecordMapper.updateMaxIdByCustomStep(tag, step);
+        return uniqueRecordMapper.getUniqueRecord(tag);
+    }
+
+}

@@ -78,4 +78,6 @@ mybatis:
     # Mybatis驼峰命名映射
     map-underscore-to-camel-case: true
 
-
+unique:
+  client:
+    url: http://localhost:8090

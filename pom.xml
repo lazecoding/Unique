@@ -24,6 +24,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>lazecoding</groupId>
+            <artifactId>unique-client</artifactId>
+            <version>release-2.0.0</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

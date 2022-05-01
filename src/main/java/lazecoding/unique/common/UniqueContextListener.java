@@ -8,42 +8,15 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.*;
 import org.springframework.core.Ordered;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
-import javax.servlet.annotation.WebListener;
-
 /**
- * @author: lazecoding
- * @date: 2020/12/3 22:49
- * @description: Listener 扩展
+ * UniqueContextListener
+ *
+ * @author lazecoding
  */
-@WebListener
-public class BaseListener implements ServletContextListener, ServletRequestListener, ApplicationListener<ApplicationEvent>, Ordered {
+public class UniqueContextListener implements ApplicationListener<ApplicationEvent>, Ordered {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public BaseListener() {
-    }
-
-    @Override
-    public void contextInitialized(ServletContextEvent servletContextEvent) {
-        logger.debug("BaseListener starting...");
-    }
-
-    @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        logger.debug("BaseListener ending...");
-    }
-
-    @Override
-    public void requestInitialized(ServletRequestEvent servletRequestEvent) {
-        logger.debug("BaseListener RequestEvent starting...");
-    }
-
-    @Override
-    public void requestDestroyed(ServletRequestEvent servletRequestEvent) {
-        logger.debug("BaseListener RequestEvent ending...");
+    public UniqueContextListener() {
     }
 
     @Override
@@ -63,8 +36,6 @@ public class BaseListener implements ServletContextListener, ServletRequestListe
                 logger.debug("ApplicationContextEvent - ContextRefreshedEvent...");
                 // 容器初始化完毕
                 // 执行系统生命周期行为:系统初始化
-                SystemCycle systemCycle = BeanUtil.getBean(SystemCycle.class);
-                systemCycle.init();
             } else if (applicationEvent instanceof ContextStartedEvent) {
                 // spring上下文启动完成触发,既ConfigurableApplicationContext的start方法。奇怪的是spring自己启动完成后触发的不是这个事件，而是上面的RefreshedEvent。
                 logger.debug("ApplicationContextEvent - ContextStartedEvent...");
@@ -89,4 +60,3 @@ public class BaseListener implements ServletContextListener, ServletRequestListe
         return -2147483629;
     }
 }
-

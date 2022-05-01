@@ -1,4 +1,4 @@
-package lazecoding.unique.exception;
+package lazecoding.exception;
 
 /**
  * @className: InitException

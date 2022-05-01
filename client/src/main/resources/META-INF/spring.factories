@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=lazecoding.starter.UniqueClientStarter
+org.springframework.context.ApplicationListener=lazecoding.listener.ClientContextListener

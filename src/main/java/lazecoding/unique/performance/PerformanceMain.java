@@ -2,11 +2,9 @@ package lazecoding.unique.performance;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lazecoding.unique.exception.NilParamException;
-import lazecoding.unique.exception.NilTagException;
-import lazecoding.unique.service.BufferBatcher;
-import lazecoding.unique.service.BufferHolder;
-import org.springframework.beans.factory.annotation.Autowired;
+import lazecoding.api.OpenApi;
+import lazecoding.exception.NilParamException;
+import lazecoding.exception.NilTagException;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,11 +24,6 @@ public class PerformanceMain {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    @Autowired
-    private BufferHolder bufferHolder;
-
-    @Autowired
-    private BufferBatcher bufferBatcher;
 
     /**
      * 性能表现 get
@@ -73,7 +66,7 @@ public class PerformanceMain {
                     while (count > 0) {
                         try {
                             int index = count % len;
-                            bufferHolder.getUniqueId(tagArray[index]);
+                            OpenApi.getUniqueId(tagArray[index]);
                         } catch (Exception e) {
                             // System.out.println("error");
                         }
@@ -142,7 +135,7 @@ public class PerformanceMain {
                     while (count > 0) {
                         try {
                             int index = count % len;
-                            bufferBatcher.batch(tagArray[index], size);
+                            OpenApi.batch(tagArray[index], size);
                         } catch (Exception e) {
                             // System.out.println("error");
                         }

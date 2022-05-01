@@ -126,14 +126,14 @@
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
         <!-- 把日志写入文件 -->
-        <appender-ref ref="all-log"/>
+        <!--<appender-ref ref="all-log"/>
         <appender-ref ref="debug-log"/>
         <appender-ref ref="info-log"/>
         <appender-ref ref="warn-log"/>
-        <appender-ref ref="error-log"/>
+        <appender-ref ref="error-log"/>-->
     </root>
 
-    <!-- lazecoding.unique 包下 DEBUG -->
-    <logger name="lazecoding.unique" level="INFO" />
+    <!-- lazecoding 包下 DEBUG -->
+    <logger name="lazecoding" level="DEBUG" />
 
 </configuration>

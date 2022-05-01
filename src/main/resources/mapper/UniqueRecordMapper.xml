@@ -6,7 +6,7 @@
         type：自定义规则的Java类型
         id: 这个resultMap的唯一标识
         -->
-    <resultMap type="lazecoding.unique.model.UniqueRecord" id="UniqueRecord">
+    <resultMap type="lazecoding.model.UniqueRecord" id="UniqueRecord">
         <!--指定主键列的封装规则
             id： 使用该标签，定义主键会底层有优化；当然也可以使用result。推荐使用id
             column：指定数据库中哪一列

@@ -1,4 +1,4 @@
-package lazecoding.unique.model;
+package lazecoding.model;
 
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;

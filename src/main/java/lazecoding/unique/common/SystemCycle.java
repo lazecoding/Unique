@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import lazecoding.unique.init.CacheInit;
 
 /**
  * @author: lazecoding
@@ -20,22 +19,11 @@ public class SystemCycle {
     @Autowired
     private ApplicationContext applicationContext;
 
-    @Autowired
-    private CacheInit cacheInit;
-
     /**
      * 系统初始化 （服务启动前）
      */
     public void init() {
         logger.info("SystemInit Start");
-        boolean flag = false;
-        // 初始化 Tags
-        flag = cacheInit.initTags();
-        if (!flag) {
-            // 初始化失败，关闭容器
-            this.exit();
-            return;
-        }
         logger.info("SystemInit Ready");
     }
 

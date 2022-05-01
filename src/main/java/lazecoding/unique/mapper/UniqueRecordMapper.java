@@ -1,8 +1,8 @@
 package lazecoding.unique.mapper;
 
+import lazecoding.model.UniqueRecord;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import lazecoding.unique.model.UniqueRecord;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package lazecoding.unique.exception;
+package lazecoding.exception;
 
 /**
  * 批量操作异常

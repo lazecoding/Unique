@@ -1,11 +1,9 @@
-package lazecoding.unique.service;
+package lazecoding.service;
 
-import lazecoding.unique.exception.BatchException;
-import lazecoding.unique.exception.InitException;
+import lazecoding.exception.BatchException;
+import lazecoding.exception.InitException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,13 +13,9 @@ import java.util.List;
  *
  * @author lazecoding
  */
-@Component("bufferBatcher")
 public class BufferBatcher {
 
-    private final Logger logger = LoggerFactory.getLogger(BufferBatcher.class);
-
-    @Autowired
-    private BufferHolder bufferHolder;
+    private static final Logger logger = LoggerFactory.getLogger(BufferBatcher.class);
 
     /**
      * 批量获取最大值
@@ -33,7 +27,7 @@ public class BufferBatcher {
      *
      * @param size 获取个数
      */
-    public List<Long> batch(String tag, int size) throws InitException {
+    public static List<Long> batch(String tag, int size) throws InitException {
         List<Long> batchList = new LinkedList<>();
         if (size <= 0) {
             return batchList;
@@ -44,7 +38,7 @@ public class BufferBatcher {
         }
         int targetNum = size;
         while (targetNum > 0) {
-            batchList.add(bufferHolder.getUniqueId(tag));
+            batchList.add(BufferHolder.getUniqueId(tag));
             targetNum--;
         }
         if (size != batchList.size()) {
