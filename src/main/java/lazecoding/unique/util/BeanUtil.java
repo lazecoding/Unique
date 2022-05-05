@@ -1,4 +1,4 @@
-package lazecoding.unique.common;
+package lazecoding.unique.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

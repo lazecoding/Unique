@@ -1,7 +1,7 @@
-package lazecoding.unique.common;
+package lazecoding.unique.service;
 
+import lazecoding.unique.util.BeanUtil;
 import lazecoding.unique.config.ServerConfig;
-import lazecoding.unique.service.NameSpaceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
