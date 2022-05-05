@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="lazecoding.unique.mapper.NameSpaceMapper">
+    <!--自定义某个javaBean的封装规则,使用标签为 resultMap
+        type：自定义规则的Java类型
+        id: 这个resultMap的唯一标识
+        -->
+    <resultMap type="lazecoding.model.NameSpace" id="NameSpace">
+        <!--指定主键列的封装规则
+            id： 使用该标签，定义主键会底层有优化；当然也可以使用result。推荐使用id
+            column：指定数据库中哪一列
+            property：指定对应的javaBean属性
+            -->
+        <id column="namespace_id" property="namespaceId"/>
+        <!-- 定义普通列封装规则 -->
+        <result column="description" property="description"/>
+        <result column="type" property="type"/>
+    </resultMap>
+
+    <insert id="add">
+        INSERT INTO namespace (namespace_id,description,type) VALUES (#{namespaceId},#{description},#{type})
+    </insert>
+
+    <delete id="remove" >
+        DELETE FROM namespace WHERE namespace_id = #{namespaceId} AND type = 0
+    </delete>
+
+    <select id="findById" resultMap="NameSpace">
+        SELECT namespace_id,description,type FROM namespace WHERE namespace_id = #{namespaceId}  LIMIT 1
+    </select>
+</mapper>

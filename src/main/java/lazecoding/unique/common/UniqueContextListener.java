@@ -36,6 +36,8 @@ public class UniqueContextListener implements ApplicationListener<ApplicationEve
                 logger.debug("ApplicationContextEvent - ContextRefreshedEvent...");
                 // 容器初始化完毕
                 // 执行系统生命周期行为:系统初始化
+                SystemCycle systemCycle = BeanUtil.getBean("SystemCycle", SystemCycle.class);
+                systemCycle.init();
             } else if (applicationEvent instanceof ContextStartedEvent) {
                 // spring上下文启动完成触发,既ConfigurableApplicationContext的start方法。奇怪的是spring自己启动完成后触发的不是这个事件，而是上面的RefreshedEvent。
                 logger.debug("ApplicationContextEvent - ContextStartedEvent...");

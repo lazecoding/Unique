@@ -81,3 +81,7 @@ mybatis:
 unique:
   client:
     url: http://localhost:8090
+
+project:
+  server-config:
+    authorization: admin
