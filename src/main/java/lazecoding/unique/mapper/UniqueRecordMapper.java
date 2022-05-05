@@ -14,7 +14,14 @@ import java.util.List;
  */
 @Mapper
 public interface UniqueRecordMapper {
-    List<String> getAllTags();
+
+    /**
+     * 获取 namespace 下 tags
+     *
+     * @param namespaceId namespaceId
+     * @return List<String>
+     */
+    List<String> getTags(@Param("namespaceId") String namespaceId);
 
     void updateMaxId(@Param("tag") String tag);
 

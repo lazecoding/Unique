@@ -12,7 +12,15 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("unique.client")
 public class UniqueClientConfig {
 
+    /**
+     * 服务端地址
+     */
     private String url = "";
+
+    /**
+     * namespace
+     */
+    private String namespace = "";
 
     public String getUrl() {
         return url;
@@ -22,10 +30,19 @@ public class UniqueClientConfig {
         this.url = url;
     }
 
+    public String getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
+    }
+
     @Override
     public String toString() {
         return "UniqueClientConfig{" +
                 "url='" + url + '\'' +
+                ", namespace='" + namespace + '\'' +
                 '}';
     }
 }

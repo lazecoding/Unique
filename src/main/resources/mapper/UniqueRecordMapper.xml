@@ -20,8 +20,11 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="getAllTags" resultType="String">
-	    SELECT bus_tag FROM unique_record
+    <select id="getTags" resultType="String">
+	    SELECT bus_tag FROM unique_record WHERE 1 = 1
+        <if test="namespaceId != null and namespaceId != ''">
+            AND namespace_id = #{namespaceId}
+        </if>
     </select>
 
     <update id="updateMaxId">

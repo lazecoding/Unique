@@ -20,10 +20,13 @@ public class SegmentManagerController {
     @Autowired
     private SegmentManager segmentManager;
 
-    @RequestMapping(value = "/api/all/tags", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/tags/{namespace}", method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getAllTags() {
-        return segmentManager.getAllTags();
+    public List<String> getTags(@PathVariable("namespace") String namespace) {
+        if (!StringUtils.hasText(namespace)) {
+            throw new NilParamException("未正确输入 namespace:" + namespace);
+        }
+        return segmentManager.getTags(namespace);
     }
 
     @RequestMapping(value = "/api/apply/{tag}", method = RequestMethod.GET)

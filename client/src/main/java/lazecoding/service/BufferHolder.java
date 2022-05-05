@@ -101,9 +101,8 @@ public class BufferHolder {
         // 标识更新IdCache是否成功
         boolean isSuccess = false;
         try {
-            // 获取数据库中全部 bus_tag
-            // TODO 按业务分组
-            List<String> dbTags = BufferRest.getAllTags();
+            // 根据 namespace 获取 tags
+            List<String> dbTags = BufferRest.getTags();
             if (dbTags == null || dbTags.isEmpty()) {
                 isSuccess = true;
                 return isSuccess;

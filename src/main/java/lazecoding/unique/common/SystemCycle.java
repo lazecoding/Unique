@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
  *
  * @author lazecoding
  */
-@Component("SystemCycle")
+@Component("systemCycle")
 public class SystemCycle {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

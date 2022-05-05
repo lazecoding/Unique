@@ -2,6 +2,9 @@ package lazecoding.service;
 
 import lazecoding.api.OpenApi;
 import lazecoding.model.UniqueRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -13,11 +16,24 @@ import java.util.List;
  */
 public class BufferRest {
 
+    private static final Logger logger = LoggerFactory.getLogger(BufferRest.class);
+
+
     static RestTemplate restTemplate = new RestTemplate();
 
-    public static List<String> getAllTags() {
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/all/tags";
-        List<String> list = restTemplate.getForObject(requestUrl, List.class);
+    /**
+     * 根据 namespace 获取 tags
+     *
+     * @return
+     */
+    public static List<String> getTags() {
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tags/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace();
+        List<String> list = null;
+        try {
+            list = restTemplate.getForObject(requestUrl, List.class);
+        } catch (RestClientException e) {
+            logger.error("requestUrl:[{}] ERROR.",requestUrl);
+        }
         return list;
     }
 
