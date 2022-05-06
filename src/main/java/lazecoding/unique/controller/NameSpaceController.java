@@ -1,8 +1,10 @@
 package lazecoding.unique.controller;
 
+import lazecoding.api.OpenApi;
 import lazecoding.exception.AuthorizationException;
 import lazecoding.exception.NilParamException;
 import lazecoding.model.NameSpace;
+import lazecoding.mvc.ResultBean;
 import lazecoding.unique.config.ServerConfig;
 import lazecoding.unique.service.NameSpaceManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,17 +33,20 @@ public class NameSpaceController {
      */
     @RequestMapping(value = "/api/namespace/find/{authorization}/{namespace}", method = RequestMethod.GET)
     @ResponseBody
-    public NameSpace find(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
+    public ResultBean find(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
         if (!StringUtils.hasText(authorization)) {
             throw new NilParamException("未正确输入 authorization:" + authorization);
         }
-        if (!serverConfig.getAuthorization().equals(authorization)){
+        if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(namespace)) {
             throw new NilParamException("未正确输入 namespace:" + namespace);
         }
-        return nameSpaceManager.findById(namespace);
+        ResultBean resultBean = new ResultBean();
+        resultBean.setSuccess(true);
+        resultBean.setValue(nameSpaceManager.findById(namespace));
+        return resultBean;
     }
 
     /**
@@ -52,22 +57,30 @@ public class NameSpaceController {
      */
     @RequestMapping(value = "/api/namespace/remove/{authorization}/{namespace}", method = RequestMethod.GET)
     @ResponseBody
-    public Boolean remove(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
+    public ResultBean remove(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
         if (!StringUtils.hasText(authorization)) {
             throw new NilParamException("未正确输入 authorization:" + authorization);
         }
-        if (!serverConfig.getAuthorization().equals(authorization)){
+        if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(namespace)) {
             throw new NilParamException("未正确输入 namespace:" + namespace);
         }
+        boolean isSuccess = false;
+        String message = "";
         try {
             nameSpaceManager.remove(namespace);
+            isSuccess = true;
+            message = "删除成功";
         } catch (Exception e) {
-            return false;
+            isSuccess = false;
+            message = "删除失败";
         }
-        return true;
+        ResultBean resultBean = new ResultBean();
+        resultBean.setSuccess(isSuccess);
+        resultBean.setMessage(message);
+        return resultBean;
     }
 
     /**
@@ -77,17 +90,32 @@ public class NameSpaceController {
      */
     @RequestMapping(value = "/api/namespace/apply/{authorization}/{description}", method = RequestMethod.GET)
     @ResponseBody
-    public NameSpace apply(@PathVariable("authorization") String authorization, @PathVariable("description") String description) {
+    public ResultBean apply(@PathVariable("authorization") String authorization, @PathVariable("description") String description) {
         if (!StringUtils.hasText(authorization)) {
             throw new NilParamException("未正确输入 authorization:" + authorization);
         }
-        if (!serverConfig.getAuthorization().equals(authorization)){
+        if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(description)) {
             throw new NilParamException("未正确输入 description:" + description);
         }
-        return nameSpaceManager.apply(description);
+        boolean isSuccess = false;
+        NameSpace nameSpace = null;
+        String message = "";
+        try {
+            nameSpace = nameSpaceManager.apply(description);
+            isSuccess = true;
+            message = "申请 namespace 成功";
+        } catch (Exception e) {
+            isSuccess = false;
+            message = "申请 namespace 失败";
+        }
+        ResultBean resultBean = new ResultBean();
+        resultBean.setSuccess(isSuccess);
+        resultBean.setValue(nameSpace);
+        resultBean.setMessage(message);
+        return resultBean;
     }
 
 }

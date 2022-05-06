@@ -7,6 +7,7 @@ import lazecoding.model.SegmentBuffer;
 import lazecoding.model.UniqueRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -103,7 +104,7 @@ public class BufferHolder {
         try {
             // 根据 namespace 获取 tags
             List<String> dbTags = BufferRest.getTags();
-            if (dbTags == null || dbTags.isEmpty()) {
+            if (CollectionUtils.isEmpty(dbTags)) {
                 isSuccess = true;
                 return isSuccess;
             }
@@ -223,11 +224,8 @@ public class BufferHolder {
                 nextStep = nextStep / 2 >= buffer.getMinStep() ? nextStep / 2 : nextStep;
             }
             logger.info("tag[{}], step[{}], duration[{}mins], nextStep[{}]", tag, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
-            UniqueRecord temp = new UniqueRecord();
-            temp.setTag(tag);
-            temp.setStep(nextStep);
             // apply record
-            uniqueRecord = BufferRest.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
+            uniqueRecord = BufferRest.updateMaxIdByCustomStepAndGetLeafAlloc(tag, nextStep);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
             buffer.setStep(nextStep);
             buffer.setMinStep(uniqueRecord.getStep());

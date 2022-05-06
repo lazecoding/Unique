@@ -57,9 +57,7 @@ public class SegmentManager {
      * 申请号段（自定义步长）
      */
     @Transactional
-    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(UniqueRecord uniqueRecord) {
-        String tag = uniqueRecord.getTag();
-        int step = uniqueRecord.getStep();
+    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String tag, int step) {
         uniqueRecordMapper.updateMaxIdByCustomStep(tag, step);
         return uniqueRecordMapper.getUniqueRecord(tag);
     }
