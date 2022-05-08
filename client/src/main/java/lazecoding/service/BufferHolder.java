@@ -141,7 +141,7 @@ public class BufferHolder {
             logger.info("Sync Tags IN Db/Cache Ready");
             return isSuccess;
         } catch (Exception e) {
-            logger.error("Sync Tags IN Db/Cache Exception:[{}] ", e.getCause().toString());
+            logger.error("Sync Tags IN Db/Cache Exception", e);
             isSuccess = false;
             return isSuccess;
         }
@@ -183,7 +183,7 @@ public class BufferHolder {
                             // buffer 初始化成功
                             buffer.setInitSuccess(true);
                         } catch (Exception e) {
-                            logger.error("Init Tag:[{}] Buffer:[{}] From Db Exception:[{}] ", tag, buffer.getCurrent(), e.getCause().toString());
+                            logger.error("Init Tag:[" + tag + "] Buffer:[" + buffer.getCurrent() + "] From Db Exception", e);
                         }
                     }
                 }
@@ -262,7 +262,7 @@ public class BufferHolder {
                             updateOk = true;
                             logger.info("Tag:[{}] Update Buffer Segment From Db [{}]", buffer.getTag(), next);
                         } catch (Exception e) {
-                            logger.error("Tag:[{}] Update Buffer Segment From Db Exception:[{}]", buffer.getTag(), e.getCause().toString());
+                            logger.error("Tag:[" + buffer.getTag() + "] Update Buffer Segment From Db Exception", e);
                         } finally {
                             if (updateOk) {
                                 // 加写锁
