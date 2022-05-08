@@ -1,13 +1,17 @@
 package lazecoding.service;
 
+import lazecoding.api.OpenApi;
 import lazecoding.exception.InitException;
+import lazecoding.exception.NilParamException;
 import lazecoding.exception.NilTagException;
 import lazecoding.model.Segment;
 import lazecoding.model.SegmentBuffer;
 import lazecoding.model.UniqueRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.*;
@@ -84,6 +88,16 @@ public class BufferHolder {
      * 初始化
      */
     public static boolean init() {
+        // 检验 UniqueClientConfig
+        Assert.notNull(OpenApi.UNIQUE_CLIENT_CONFIG, "UniqueClientConfig is null");
+        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getUrl())){
+            throw new NilParamException("unique.client.url is null");
+        }
+
+        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace())){
+            throw new NilParamException("unique.client.namespace is null");
+        }
+
         // Sync Tags IN Db/Cache
         boolean beSuccess = syncTagsFromDb();
         if (beSuccess) {
