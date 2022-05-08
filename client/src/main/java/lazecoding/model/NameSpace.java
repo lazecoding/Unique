@@ -3,6 +3,8 @@ package lazecoding.model;
 /**
  * NameSpace
  *
+ * 作用于：获取 tags、申请 tags、删除 tags、修改 tags。
+ *
  * @author lazecoding
  */
 public class NameSpace {

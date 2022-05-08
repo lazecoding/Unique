@@ -16,6 +16,9 @@ import java.util.UUID;
 @Component("nameSpaceManager")
 public class NameSpaceManager {
 
+    /**
+     * System NameSpace:可以获取所有 namespace 下的 tags
+     */
     public static final String SYSTEM_NAMESPACE_ID = "b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59";
 
     @Autowired

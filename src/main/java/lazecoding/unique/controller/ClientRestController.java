@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ClientRestController {
 
+    /**
+     * 获取 Id
+     */
     @RequestMapping(value = "/api/get/{tag}", method = RequestMethod.GET)
     @ResponseBody
     public ResultBean getUniqueId(@PathVariable("tag") String tag) throws InitException {
@@ -30,6 +33,9 @@ public class ClientRestController {
         return resultBean;
     }
 
+    /**
+     * 批量获取 Id
+     */
     @RequestMapping(value = "/api/batch/{tag}/{size}", method = RequestMethod.GET)
     @ResponseBody
     public ResultBean batch(@PathVariable("tag") String tag, @PathVariable("size") Integer size) throws InitException {
