@@ -2,6 +2,8 @@ package lazecoding.unique.service;
 
 import lazecoding.model.NameSpace;
 import lazecoding.unique.mapper.NameSpaceMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -15,6 +17,8 @@ import java.util.UUID;
  */
 @Component("nameSpaceManager")
 public class NameSpaceManager {
+
+    private static final Logger logger = LoggerFactory.getLogger(NameSpaceManager.class);
 
     /**
      * System NameSpace:可以获取所有 namespace 下的 tags
@@ -57,6 +61,7 @@ public class NameSpaceManager {
      */
     private void add(String namespaceId, String description, int type) {
         nameSpaceMapper.add(namespaceId, description, type);
+        logger.info("新增 namespace：[{}],description:[{}],type:[{}]", namespaceId, description, type);
     }
 
     /**
@@ -66,6 +71,7 @@ public class NameSpaceManager {
      */
     public void remove(String namespaceId) {
         nameSpaceMapper.remove(namespaceId);
+        logger.info("删除 namespace：[{}]", namespaceId);
     }
 
     /**

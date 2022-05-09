@@ -33,6 +33,7 @@ public class BufferRest {
      * 获取客户端配置的 namespace 下所有 tags
      */
     public static List<String> getTags() {
+        // /api/tag/get/{namespace}
         String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/get/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace();
         List<String> list = null;
         ResultBean resultBean;
@@ -40,8 +41,7 @@ public class BufferRest {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                list = MAPPER.convertValue(resultBean.getValue(), new TypeReference<List<String>>() {
-                });
+                list = MAPPER.convertValue(resultBean.getValue(), new TypeReference<List<String>>() {});
             } else {
                 throw new RuntimeException("updateMaxIdAndGetUniqueRecord ERROR:" + resultBean.getMessage());
             }
@@ -80,7 +80,6 @@ public class BufferRest {
     public static boolean removeTag(String tag) {
         //  /api/tag/remove/{namespace}/{tag}
         String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/remove/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag ;
-        UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
@@ -96,6 +95,7 @@ public class BufferRest {
      * 申请号段
      */
     public static UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
+        // /api/segment/apply/{tag}
         String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + tag;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
@@ -118,6 +118,7 @@ public class BufferRest {
      * 申请号段（自定义步长）
      */
     public static UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String tag, int step) {
+        // /api/segment/apply/{tag}/{step}
         String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + tag + "/" + step;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
