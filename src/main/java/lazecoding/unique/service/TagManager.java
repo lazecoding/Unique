@@ -39,12 +39,7 @@ public class TagManager {
             throw new NilNameSpaceException("该 namespace 不存在");
         }
 
-        // 2. 判断是不是系统 namespace
-        if (nameSpace.getType() == 1) {
-            namespaceId = "";
-        }
-
-        // 3. 根据 namespace 获取，namespaceId nil 获取全部
+        // 3. 根据 namespace 获取
         return uniqueRecordMapper.getTags(namespaceId);
     }
 
@@ -75,7 +70,7 @@ public class TagManager {
         uniqueRecord.setStep(step);
         uniqueRecord.setDescription(description);
         uniqueRecord.setNamespaceId(namespaceId);
-        logger.info("Namespace:[{}] 下新增 tag:[{}],maxId:[{}],step:[{}],description:[{}]", namespaceId, tag, maxId, step, description);
+        logger.info("namespace:[{}] 下新增 tag:[{}],maxId:[{}],step:[{}],description:[{}]", namespaceId, tag, maxId, step, description);
         return uniqueRecord;
     }
 

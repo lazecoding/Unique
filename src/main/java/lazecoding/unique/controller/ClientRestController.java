@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
  * ClientRestController
  * <p>
  * 服务端通过 client 处理逻辑，提供 REST 接口；
- * 服务端管理所有 tags，第三方客户端只可管理自己的 tags。
+ * 只可管理 namespace 下的 tags。
  *
  * @author lazecoding
  */

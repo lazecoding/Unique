@@ -15,18 +15,17 @@
         <id column="namespace_id" property="namespaceId"/>
         <!-- 定义普通列封装规则 -->
         <result column="description" property="description"/>
-        <result column="type" property="type"/>
     </resultMap>
 
     <insert id="add">
-        INSERT INTO namespace (namespace_id,description,type) VALUES (#{namespaceId},#{description},#{type})
+        INSERT INTO namespace (namespace_id,description) VALUES (#{namespaceId},#{description})
     </insert>
 
     <delete id="remove" >
-        DELETE FROM namespace WHERE namespace_id = #{namespaceId} AND type = 0
+        DELETE FROM namespace WHERE namespace_id = #{namespaceId}
     </delete>
 
     <select id="findById" resultMap="NameSpace">
-        SELECT namespace_id,description,type FROM namespace WHERE namespace_id = #{namespaceId}  LIMIT 1
+        SELECT namespace_id,description FROM namespace WHERE namespace_id = #{namespaceId}  LIMIT 1
     </select>
 </mapper>

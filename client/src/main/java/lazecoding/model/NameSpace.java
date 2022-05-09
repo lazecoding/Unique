@@ -19,11 +19,6 @@ public class NameSpace {
      */
     private String description;
 
-    /**
-     * 类型：0 客户端；1 服务端（全局）
-     */
-    private int type;
-
     public String getNamespaceId() {
         return namespaceId;
     }
@@ -38,22 +33,5 @@ public class NameSpace {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "NameSpace{" +
-                "namespaceId='" + namespaceId + '\'' +
-                ", description='" + description + '\'' +
-                ", type=" + type +
-                '}';
     }
 }

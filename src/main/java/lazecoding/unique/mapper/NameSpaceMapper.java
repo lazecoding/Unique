@@ -17,9 +17,8 @@ public interface NameSpaceMapper {
      *
      * @param namespaceId namespaceId
      * @param description 描述
-     * @param type        类型
      */
-    void add(@Param("namespaceId") String namespaceId, @Param("description") String description, @Param("type") int type);
+    void add(@Param("namespaceId") String namespaceId, @Param("description") String description);
 
     /**
      * 删除（但是只能删除 type = 0）

@@ -21,7 +21,7 @@ public class NameSpaceManager {
     private static final Logger logger = LoggerFactory.getLogger(NameSpaceManager.class);
 
     /**
-     * System NameSpace:可以获取所有 namespace 下的 tags
+     * Server NameSpace
      */
     public static final String SYSTEM_NAMESPACE_ID = "b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59";
 
@@ -29,13 +29,13 @@ public class NameSpaceManager {
     private NameSpaceMapper nameSpaceMapper;
 
     /**
-     * 初始化,type = 1,用于服务端，可以获取所以 namespace 的 tags
+     * 初始化
      */
     public void init() {
         NameSpace nameSpace = nameSpaceMapper.findById(SYSTEM_NAMESPACE_ID);
         if (ObjectUtils.isEmpty(nameSpace)) {
-            // type == 1 表示系统默认
-            nameSpaceMapper.add(SYSTEM_NAMESPACE_ID, "系统默认", 1);
+            // type == 1 表示 Server NameSpace
+            nameSpaceMapper.add(SYSTEM_NAMESPACE_ID, "Server NameSpace");
         }
     }
 
@@ -47,7 +47,7 @@ public class NameSpaceManager {
     public NameSpace apply(String description) {
         String namespaceId = UUID.randomUUID().toString();
         // 默认 type = 0
-        this.add(namespaceId, description, 0);
+        this.add(namespaceId, description);
         NameSpace nameSpace = this.findById(namespaceId);
         return nameSpace;
     }
@@ -57,11 +57,10 @@ public class NameSpaceManager {
      *
      * @param namespaceId namespaceId
      * @param description 描述
-     * @param type        类型
      */
-    private void add(String namespaceId, String description, int type) {
-        nameSpaceMapper.add(namespaceId, description, type);
-        logger.info("新增 namespace：[{}],description:[{}],type:[{}]", namespaceId, description, type);
+    private void add(String namespaceId, String description) {
+        nameSpaceMapper.add(namespaceId, description);
+        logger.info("新增 namespace：[{}],description:[{}]", namespaceId, description);
     }
 
     /**
