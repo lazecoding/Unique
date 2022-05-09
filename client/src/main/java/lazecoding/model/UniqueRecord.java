@@ -1,10 +1,9 @@
 package lazecoding.model;
 
 /**
- * @className: UniqueRecord
- * @description:
- * @datetime: 2020/10/12   22:32
- * @author: lazecoding
+ * UniqueRecord
+ *
+ * @author lazecoding
  */
 public class UniqueRecord {
     /**
@@ -21,6 +20,16 @@ public class UniqueRecord {
      * 步长
      */
     private int step;
+
+    /**
+     * 描述
+     */
+    private String description;
+
+    /**
+     * namespaceId
+     */
+    private String namespaceId;
 
     /**
      * 更新事件
@@ -51,6 +60,22 @@ public class UniqueRecord {
         this.step = step;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getNamespaceId() {
+        return namespaceId;
+    }
+
+    public void setNamespaceId(String namespaceId) {
+        this.namespaceId = namespaceId;
+    }
+
     public String getUpdateTime() {
         return updateTime;
     }
@@ -65,6 +90,8 @@ public class UniqueRecord {
                 "tag='" + tag + '\'' +
                 ", maxId=" + maxId +
                 ", step=" + step +
+                ", description='" + description + '\'' +
+                ", namespaceId='" + namespaceId + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 '}';
     }

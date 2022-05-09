@@ -109,6 +109,28 @@ public class BufferHolder {
     }
 
     /**
+     * 获取客户端配置的 namespace 下所有 tags
+     */
+    public static List<String> getTags() {
+        return BufferRest.getTags();
+    }
+
+    /**
+     * 在客户端配置的 namespace 下新增 tag
+     */
+    public static UniqueRecord addTag(String tag, long maxId, int step, String description) {
+        return BufferRest.addTag(tag, maxId, step, description);
+    }
+
+    /**
+     * 在客户端配置的 namespace 下删除 tag
+     */
+    public static boolean removeTag(String tag) {
+        return BufferRest.removeTag(tag);
+    }
+
+
+    /**
      * Sync Tags IN Db/Cache
      */
     private static boolean syncTagsFromDb() {
@@ -117,7 +139,7 @@ public class BufferHolder {
         boolean isSuccess = false;
         try {
             // 根据 namespace 获取 tags
-            List<String> dbTags = BufferRest.getTags();
+            List<String> dbTags = BufferHolder.getTags();
             if (CollectionUtils.isEmpty(dbTags)) {
                 isSuccess = true;
                 return isSuccess;

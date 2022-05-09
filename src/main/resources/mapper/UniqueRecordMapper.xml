@@ -17,6 +17,8 @@
         <result column="max_id" property="maxId"/>
         <!-- 其他不指定的列会自动封装：但推荐写完整。 -->
         <result column="step" property="step"/>
+        <result column="description" property="description"/>
+        <result column="namespace_id" property="namespaceId"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
@@ -26,6 +28,14 @@
             AND namespace_id = #{namespaceId}
         </if>
     </select>
+
+    <insert id="add">
+        INSERT INTO unique_record (bus_tag,max_id,step,description,namespace_id) VALUES (#{tag},#{maxId},#{step},#{description},#{namespaceId})
+    </insert>
+
+    <delete id="remove">
+        DELETE FROM unique_record WHERE  namespace_id = #{namespaceId} AND bus_tag = #{tag}
+    </delete>
 
     <update id="updateMaxId">
         UPDATE unique_record SET max_id = max_id + step WHERE bus_tag = #{tag}

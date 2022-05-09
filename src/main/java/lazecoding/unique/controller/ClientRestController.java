@@ -25,7 +25,7 @@ public class ClientRestController {
     @ResponseBody
     public ResultBean getUniqueId(@PathVariable("tag") String tag) throws InitException {
         if (!StringUtils.hasText(tag)) {
-            throw new NilParamException("未正确输入 tag:" + tag);
+            throw new NilParamException("tag 不得为空");
         }
         ResultBean resultBean = new ResultBean();
         resultBean.setSuccess(true);

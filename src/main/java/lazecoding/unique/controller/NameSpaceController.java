@@ -1,12 +1,13 @@
 package lazecoding.unique.controller;
 
-import lazecoding.api.OpenApi;
 import lazecoding.exception.AuthorizationException;
 import lazecoding.exception.NilParamException;
 import lazecoding.model.NameSpace;
 import lazecoding.mvc.ResultBean;
 import lazecoding.unique.config.ServerConfig;
 import lazecoding.unique.service.NameSpaceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 public class NameSpaceController {
+
+    private static final Logger logger = LoggerFactory.getLogger(NameSpaceController.class);
 
     @Autowired
     private ServerConfig serverConfig;
@@ -35,13 +38,13 @@ public class NameSpaceController {
     @ResponseBody
     public ResultBean find(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
         if (!StringUtils.hasText(authorization)) {
-            throw new NilParamException("未正确输入 authorization:" + authorization);
+            throw new NilParamException("authorization 不得为空");
         }
         if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(namespace)) {
-            throw new NilParamException("未正确输入 namespace:" + namespace);
+            throw new NilParamException("namespace 不得为空");
         }
         ResultBean resultBean = new ResultBean();
         resultBean.setSuccess(true);
@@ -59,13 +62,13 @@ public class NameSpaceController {
     @ResponseBody
     public ResultBean remove(@PathVariable("authorization") String authorization, @PathVariable("namespace") String namespace) {
         if (!StringUtils.hasText(authorization)) {
-            throw new NilParamException("未正确输入 authorization:" + authorization);
+            throw new NilParamException("authorization 不得为空");
         }
         if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(namespace)) {
-            throw new NilParamException("未正确输入 namespace:" + namespace);
+            throw new NilParamException("namespace 不得为空");
         }
         boolean isSuccess = false;
         String message = "";
@@ -75,6 +78,7 @@ public class NameSpaceController {
             message = "删除成功";
         } catch (Exception e) {
             isSuccess = false;
+            logger.error("接口:[/api/namespace/remove/{authorization}/{namespace}] 删除失败", e);
             message = "删除失败";
         }
         ResultBean resultBean = new ResultBean();
@@ -92,13 +96,13 @@ public class NameSpaceController {
     @ResponseBody
     public ResultBean apply(@PathVariable("authorization") String authorization, @PathVariable("description") String description) {
         if (!StringUtils.hasText(authorization)) {
-            throw new NilParamException("未正确输入 authorization:" + authorization);
+            throw new NilParamException("authorization 不得为空");
         }
         if (!serverConfig.getAuthorization().equals(authorization)) {
             throw new AuthorizationException("鉴权失败");
         }
         if (!StringUtils.hasText(description)) {
-            throw new NilParamException("未正确输入 description:" + description);
+            throw new NilParamException("namespace 不得为空");
         }
         boolean isSuccess = false;
         NameSpace nameSpace = null;
@@ -109,6 +113,7 @@ public class NameSpaceController {
             message = "申请 namespace 成功";
         } catch (Exception e) {
             isSuccess = false;
+            logger.error("接口:[/api/namespace/apply/{authorization}/{description}] 申请 namespace 失败", e);
             message = "申请 namespace 失败";
         }
         ResultBean resultBean = new ResultBean();
