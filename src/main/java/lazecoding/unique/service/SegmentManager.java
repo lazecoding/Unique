@@ -20,7 +20,7 @@ public class SegmentManager {
     /**
      * 申请号段
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
         uniqueRecordMapper.updateMaxId(tag);
         return uniqueRecordMapper.getUniqueRecord(tag);
@@ -29,7 +29,7 @@ public class SegmentManager {
     /**
      * 申请号段（自定义步长）
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String tag, int step) {
         uniqueRecordMapper.updateMaxIdByCustomStep(tag, step);
         return uniqueRecordMapper.getUniqueRecord(tag);

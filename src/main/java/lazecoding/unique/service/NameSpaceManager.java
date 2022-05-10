@@ -60,7 +60,7 @@ public class NameSpaceManager {
      */
     private void add(String namespaceId, String description) {
         nameSpaceMapper.add(namespaceId, description);
-        logger.info("新增 namespace：[{}],description:[{}]", namespaceId, description);
+        logger.info("新增 namespace:[{}],description:[{}]", namespaceId, description);
     }
 
     /**
@@ -70,7 +70,7 @@ public class NameSpaceManager {
      */
     public void remove(String namespaceId) {
         nameSpaceMapper.remove(namespaceId);
-        logger.info("删除 namespace：[{}]", namespaceId);
+        logger.info("删除 namespace:[{}]", namespaceId);
     }
 
     /**

@@ -592,8 +592,9 @@ public class StackUtil {
         @Override
         public String toString() {
             Iterator<Map.Entry<Integer, String>> iterator = entrySet().iterator();
-            if (!iterator.hasNext())
+            if (!iterator.hasNext()) {
                 return "";
+            }
             StringBuilder builder = new StringBuilder();
             for (; ; ) {
                 Map.Entry<Integer, String> entry = iterator.next();

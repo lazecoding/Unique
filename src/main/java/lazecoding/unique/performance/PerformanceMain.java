@@ -42,7 +42,7 @@ public class PerformanceMain {
             , @PathVariable("threads") Integer threads
             , @PathVariable("times") Integer times
     ) {
-        if (StringUtils.isEmpty(tags)) {
+        if (!StringUtils.hasText(tags)) {
             throw new NilTagException("tags 不得为空");
         }
         if (threads == null || threads < 1) {
@@ -107,7 +107,7 @@ public class PerformanceMain {
             , @PathVariable("threads") Integer threads
             , @PathVariable("times") Integer times
     ) {
-        if (StringUtils.isEmpty(tags)) {
+        if (!StringUtils.hasText(tags)) {
             throw new NilTagException("tags 不得为空");
         }
         if (size == null || size < 1) {
