@@ -1,22 +1,23 @@
 DROP TABLE IF EXISTS `unique_record`;
 
 CREATE TABLE `unique_record` (
-  `bus_tag` varchar(128)  NOT NULL DEFAULT '',
-  `max_id` bigint(20) NOT NULL DEFAULT '1',
-  `step` int(11) NOT NULL,
-  `description` varchar(256)  DEFAULT NULL,
-  `namespace_id` varchar(36) NOT NULL DEFAULT '',
-  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`bus_tag`)
-) ENGINE=InnoDB;
+ `uid` int(11) AUTO_INCREMENT,
+ `bus_tag` varchar(128)  NOT NULL,
+ `max_id` bigint(20) NOT NULL,
+ `step` int(11) NOT NULL,
+ `description` varchar(256),
+ `namespace_id` varchar(36) NOT NULL,
+ `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ PRIMARY KEY (`uid`),
+ UNIQUE INDEX  idx_namespace_tag(`namespace_id`,`bus_tag`),
+ INDEX idx_tag (`bus_tag`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 DROP TABLE IF EXISTS `namespace`;
 
 CREATE TABLE `namespace` (
-  `namespace_id` varchar(36)  NOT NULL DEFAULT '',
-  `description` varchar(256)  DEFAULT NULL,
-  PRIMARY KEY (`namespace_id`)
-) ENGINE=InnoDB;
-
-INSERT INTO unique_record(bus_tag, max_id, step, description,namespace_id) VALUES ('unique-record-segment-test', 1, 20000, 'Test Unique Record Segment Mode Get Id','7580ab88-ed46-4cc6-8847-c9d0bafd24b9');
+ `namespace_id` varchar(36)  NOT NULL,
+ `description` varchar(256),
+ PRIMARY KEY (`namespace_id`)
+) ENGINE=InnoDB CHARSET=utf8mb4;

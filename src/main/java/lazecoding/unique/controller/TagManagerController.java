@@ -143,7 +143,7 @@ public class TagManagerController {
             message = "参数不合法:[" + e.getMessage() + "]，新增失败";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口：[/api/tag/add/{namespace}/{tag}/{maxId}/{step}/{description}] 新增失败", e);
+            logger.error("接口:[/api/tag/add/{namespace}/{tag}/{maxId}/{step}/{description}] 新增失败", e);
             message = "系统异常，新增失败";
         }
         ResultBean resultBean = new ResultBean();
@@ -180,7 +180,7 @@ public class TagManagerController {
             message = "该 namespace 不存在，删除 tag 失败";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口：[/api/tag/remove/{namespace}/{tag}] 删除失败", e);
+            logger.error("接口:[/api/tag/remove/{namespace}/{tag}] 删除失败", e);
             message = "系统异常，删除失败";
         }
         ResultBean resultBean = new ResultBean();

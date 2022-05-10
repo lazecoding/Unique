@@ -1,13 +1,21 @@
 package lazecoding.model;
 
+import java.util.Date;
+
 /**
  * UniqueRecord
  *
  * @author lazecoding
  */
 public class UniqueRecord {
+
     /**
-     * 唯一标识
+     * 主键
+     */
+    private int uid;
+
+    /**
+     * 业务标识
      */
     private String tag;
 
@@ -34,7 +42,15 @@ public class UniqueRecord {
     /**
      * 更新事件
      */
-    private String updateTime;
+    private Date updateTime;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
 
     public String getTag() {
         return tag;
@@ -76,23 +92,24 @@ public class UniqueRecord {
         this.namespaceId = namespaceId;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
     @Override
     public String toString() {
-        return "UniqueRecord{" +
-                "tag='" + tag + '\'' +
+        return "{" +
+                "uid=" + uid +
+                ", tag='" + tag + '\'' +
                 ", maxId=" + maxId +
                 ", step=" + step +
                 ", description='" + description + '\'' +
                 ", namespaceId='" + namespaceId + '\'' +
-                ", updateTime='" + updateTime + '\'' +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }

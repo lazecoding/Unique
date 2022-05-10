@@ -7,10 +7,9 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @className: UniqueRecordMapper
- * @description:
- * @datetime: 2020/10/12   21:17
- * @author: lazecoding
+ * UniqueRecordMapper
+ *
+ * @author lazecoding
  */
 @Mapper
 public interface UniqueRecordMapper {
@@ -35,14 +34,10 @@ public interface UniqueRecordMapper {
     /**
      * 在 namespace 下新增 tag
      *
-     * @param namespaceId namespaceId
-     * @param tag         tag
-     * @param maxId       最大 Id
-     * @param step        步长
-     * @param description 描述
+     * @param uniqueRecord UniqueRecord
+     * @return uid
      */
-    void add(@Param("namespaceId") String namespaceId, @Param("tag") String tag
-            , @Param("maxId") long maxId, @Param("step") int step, @Param("description") String description);
+    void add(UniqueRecord uniqueRecord);
 
     /**
      * 在 namespace 下删除 tag
@@ -52,9 +47,26 @@ public interface UniqueRecordMapper {
      */
     void remove(@Param("namespaceId") String namespaceId, @Param("tag") String tag);
 
+    /**
+     * 更新号段，step 取默认值
+     *
+     * @param tag tag
+     */
     void updateMaxId(@Param("tag") String tag);
 
+    /**
+     * 获取 UniqueRecord
+     *
+     * @param tag tag
+     * @return UniqueRecord
+     */
     UniqueRecord getUniqueRecord(@Param("tag") String tag);
 
+    /**
+     * 更新号段，自定义 step
+     *
+     * @param tag  tag
+     * @param step 步长
+     */
     void updateMaxIdByCustomStep(@Param("tag") String tag, @Param("step") int step);
 }

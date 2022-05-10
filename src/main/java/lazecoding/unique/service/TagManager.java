@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -77,16 +80,17 @@ public class TagManager {
         if (step > 1000000) {
             throw new IllegalParamException("start 不可以大于 1000,000");
         }
+
         // 2. add
-        uniqueRecordMapper.add(namespaceId, tag, maxId, step, description);
-        // 3. 组织 uniqueRecord
         UniqueRecord uniqueRecord = new UniqueRecord();
         uniqueRecord.setTag(tag);
         uniqueRecord.setMaxId(maxId);
         uniqueRecord.setStep(step);
         uniqueRecord.setDescription(description);
         uniqueRecord.setNamespaceId(namespaceId);
-        logger.info("namespace:[{}] 下新增 tag:[{}],maxId:[{}],step:[{}],description:[{}]", namespaceId, tag, maxId, step, description);
+        uniqueRecord.setUpdateTime(Date.from(LocalDateTime.now().toInstant(ZoneOffset.of("+8"))));
+        uniqueRecordMapper.add(uniqueRecord);
+        logger.info("namespace:[{}] 下新增 tag:[{}]", namespaceId,uniqueRecord.toString());
         return uniqueRecord;
     }
 
@@ -102,7 +106,7 @@ public class TagManager {
 
         // 2. remove
         uniqueRecordMapper.remove(namespaceId, tag);
-        logger.info("Namespace:[{}] 下删除 tag:[{}]", namespaceId, tag);
+        logger.info("namespace:[{}] 下删除 tag:[{}]", namespaceId, tag);
     }
 
 }

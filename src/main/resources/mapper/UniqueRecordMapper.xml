@@ -12,8 +12,9 @@
             column：指定数据库中哪一列
             property：指定对应的javaBean属性
             -->
-        <id column="bus_tag" property="tag"/>
+        <id column="uid" property="uid"/>
         <!-- 定义普通列封装规则 -->
+        <result column="bus_tag" property="tag"/>
         <result column="max_id" property="maxId"/>
         <!-- 其他不指定的列会自动封装：但推荐写完整。 -->
         <result column="step" property="step"/>
@@ -22,16 +23,16 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="getTags" resultType="String">
+    <select id="getTags" resultType="java.lang.String">
 	    SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId}
     </select>
 
-    <select id="existTag" resultType="String">
+    <select id="existTag" resultType="java.lang.String">
         SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag} LIMIT 1
     </select>
 
-    <insert id="add">
-        INSERT INTO unique_record (bus_tag,max_id,step,description,namespace_id) VALUES (#{tag},#{maxId},#{step},#{description},#{namespaceId})
+    <insert id="add" parameterType="lazecoding.model.UniqueRecord"  useGeneratedKeys="true" keyProperty="uid" keyColumn="uid">
+        INSERT INTO unique_record (bus_tag,max_id,step,description,namespace_id,update_time) VALUES (#{tag},#{maxId},#{step},#{description},#{namespaceId},#{updateTime})
     </insert>
 
     <delete id="remove">
@@ -43,7 +44,7 @@
     </update>
 
     <select id="getUniqueRecord" resultMap="UniqueRecord">
-        SELECT bus_tag, max_id, step FROM unique_record WHERE bus_tag = #{tag} LIMIT 1
+        SELECT uid,bus_tag,max_id,step,description,namespace_id,update_time FROM unique_record WHERE bus_tag = #{tag} LIMIT 1
     </select>
 
     <update id="updateMaxIdByCustomStep">
