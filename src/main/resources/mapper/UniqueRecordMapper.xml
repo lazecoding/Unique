@@ -26,6 +26,10 @@
 	    SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId}
     </select>
 
+    <select id="existTag" resultType="String">
+        SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag} LIMIT 1
+    </select>
+
     <insert id="add">
         INSERT INTO unique_record (bus_tag,max_id,step,description,namespace_id) VALUES (#{tag},#{maxId},#{step},#{description},#{namespaceId})
     </insert>

@@ -24,6 +24,15 @@ public interface UniqueRecordMapper {
     List<String> getTags(@Param("namespaceId") String namespaceId);
 
     /**
+     * 判断 namespace 下是否存在某 tag
+     *
+     * @param namespaceId namespaceId
+     * @param tag         tag
+     * @return tag
+     */
+    String existTag(@Param("namespaceId") String namespaceId, @Param("tag") String tag);
+
+    /**
      * 在 namespace 下新增 tag
      *
      * @param namespaceId namespaceId
@@ -42,7 +51,6 @@ public interface UniqueRecordMapper {
      * @param tag         tag
      */
     void remove(@Param("namespaceId") String namespaceId, @Param("tag") String tag);
-
 
     void updateMaxId(@Param("tag") String tag);
 

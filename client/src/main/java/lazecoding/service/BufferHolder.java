@@ -116,6 +116,13 @@ public class BufferHolder {
     }
 
     /**
+     * 判断客户端配置的 namespace 下是否存在某 tag
+     */
+    public static boolean existTag(String tag) {
+        return BufferRest.existTag(tag);
+    }
+
+    /**
      * 在客户端配置的 namespace 下新增 tag
      */
     public static UniqueRecord addTag(String tag, long maxId, int step, String description) {

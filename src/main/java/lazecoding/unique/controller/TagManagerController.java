@@ -36,7 +36,7 @@ public class TagManagerController {
      */
     @RequestMapping(value = "/api/tag/get/{namespace}", method = RequestMethod.GET)
     @ResponseBody
-    public ResultBean getTag(@PathVariable("namespace") String namespace) {
+    public ResultBean getTags(@PathVariable("namespace") String namespace) {
         if (!StringUtils.hasText(namespace)) {
             throw new NilParamException("namespace 不得为空");
         }
@@ -58,6 +58,46 @@ public class TagManagerController {
         ResultBean resultBean = new ResultBean();
         resultBean.setSuccess(isSuccess);
         resultBean.setValue(tags);
+        resultBean.setMessage(message);
+        return resultBean;
+    }
+
+    /**
+     * 判断 namespace 下是否存在某 tag
+     *
+     * @param namespace namespaceId
+     * @param tag       tag
+     * @return
+     */
+    @RequestMapping(value = "/api/tag/exist/{namespace}/{tag}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultBean existTag(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag) {
+        if (!StringUtils.hasText(namespace)) {
+            throw new NilParamException("namespace 不得为空");
+        }
+        if (!StringUtils.hasText(tag)) {
+            throw new NilParamException("tag 不得为空");
+        }
+        boolean isExist = false;
+        boolean isSuccess = false;
+        String message = "";
+        try {
+            isExist = tagManager.existTag(namespace, tag);
+            isSuccess = true;
+            message = "获取成功";
+        } catch (NilNameSpaceException e) {
+            isExist = false;
+            isSuccess = false;
+            message = "该 namespace 不存在";
+        } catch (Exception e) {
+            isExist = false;
+            isSuccess = false;
+            logger.error("接口:[/api/tag/exist/{namespace}/{tag}] 获取失败", e);
+            message = "系统异常，获取失败";
+        }
+        ResultBean resultBean = new ResultBean();
+        resultBean.setSuccess(isSuccess);
+        resultBean.setValue(isExist);
         resultBean.setMessage(message);
         return resultBean;
     }
@@ -171,8 +211,10 @@ public class TagManagerController {
         }
         UniqueRecord uniqueRecord = OpenApi.addTag(tag, 1, 22222, "23721632");
         System.out.println(uniqueRecord.toString());
-        System.out.println(OpenApi.removeTag(tag));
-        System.out.println(OpenApi.removeTag(tag));
+        System.out.println( "存在：" + OpenApi.existTag(tag));
+        System.out.println( "删除：" + OpenApi.removeTag(tag));
+        System.out.println( "存在：" + OpenApi.existTag(tag));
+        System.out.println( "删除：" + OpenApi.removeTag(tag));
         return "resultBean";
     }
 
