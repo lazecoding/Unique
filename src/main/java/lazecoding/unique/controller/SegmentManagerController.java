@@ -21,16 +21,18 @@ public class SegmentManagerController {
 
     private static final Logger logger = LoggerFactory.getLogger(SegmentManagerController.class);
 
-
     @Autowired
     private SegmentManager segmentManager;
 
     /**
      * 申请号段
      */
-    @RequestMapping(value = "/api/segment/apply/{tag}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/segment/apply/{namespace}/{tag}", method = RequestMethod.GET)
     @ResponseBody
-    public ResultBean apply(@PathVariable("tag") String tag) {
+    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag) {
+        if (!StringUtils.hasText(namespace)) {
+            throw new NilParamException("namespace 不得为空");
+        }
         if (!StringUtils.hasText(tag)) {
             throw new NilParamException("tag 不得为空");
         }
@@ -38,12 +40,12 @@ public class SegmentManagerController {
         boolean isSuccess = false;
         String message = "";
         try {
-            uniqueRecord = segmentManager.updateMaxIdAndGetUniqueRecord(tag);
+            uniqueRecord = segmentManager.updateMaxIdAndGetUniqueRecord(namespace, tag);
             isSuccess = true;
             message = "获取成功";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口:[/api/segment/apply/{tag}] 获取失败", e);
+            logger.error("接口:[/api/segment/apply/{namespace}/{tag}] 获取失败", e);
             message = "系统异常，获取失败";
         }
         ResultBean resultBean = new ResultBean();
@@ -56,28 +58,34 @@ public class SegmentManagerController {
     /**
      * 申请号段（自定义）
      */
-    @RequestMapping(value = "/api/segment/apply/{tag}/{step}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/segment/apply/{namespace}/{tag}/{step}", method = RequestMethod.GET)
     @ResponseBody
-    public ResultBean apply(@PathVariable("tag") String tag, @PathVariable("step") Integer step) {
+    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag, @PathVariable("step") Integer step) {
+        if (!StringUtils.hasText(namespace)) {
+            throw new NilParamException("namespace 不得为空");
+        }
         if (!StringUtils.hasText(tag)) {
             throw new NilParamException("tag 不得为空");
         }
         if (step == null) {
             throw new NilParamException("step 不得为空");
         }
-        if (step < 1) {
-            throw new IllegalParamException("未正确输入 step:" + tag);
+        if (step < 20000) {
+            throw new IllegalParamException("start 不可以小于 20,000");
+        }
+        if (step > 1000000) {
+            throw new IllegalParamException("start 不可以大于 1000,000");
         }
         UniqueRecord uniqueRecord = null;
         boolean isSuccess = false;
         String message = "";
         try {
-            uniqueRecord = segmentManager.updateMaxIdByCustomStepAndGetLeafAlloc(tag, step);
+            uniqueRecord = segmentManager.updateMaxIdByCustomStepAndGetLeafAlloc(namespace, tag, step);
             isSuccess = true;
             message = "获取成功";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口:[/api/segment/apply/{tag}/{step}] 获取失败", e);
+            logger.error("接口:[/api/segment/apply/{namespace}/{tag}/{step}] 获取失败", e);
             message = "系统异常，获取失败";
         }
         ResultBean resultBean = new ResultBean();

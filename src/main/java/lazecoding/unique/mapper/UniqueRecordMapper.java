@@ -50,23 +50,26 @@ public interface UniqueRecordMapper {
     /**
      * 更新号段，step 取默认值
      *
-     * @param tag tag
+     * @param namespaceId namespaceId
+     * @param tag          tag
      */
-    void updateMaxId(@Param("tag") String tag);
+    void updateMaxId(@Param("namespaceId") String namespaceId, @Param("tag") String tag);
 
     /**
      * 获取 UniqueRecord
      *
-     * @param tag tag
+     * @param namespaceId namespaceId
+     * @param tag          tag
      * @return UniqueRecord
      */
-    UniqueRecord getUniqueRecord(@Param("tag") String tag);
+    UniqueRecord getUniqueRecord(@Param("namespaceId") String namespaceId, @Param("tag") String tag);
 
     /**
      * 更新号段，自定义 step
      *
-     * @param tag  tag
-     * @param step 步长
+     * @param namespaceId namespaceId
+     * @param tag          tag
+     * @param step         步长
      */
-    void updateMaxIdByCustomStep(@Param("tag") String tag, @Param("step") int step);
+    void updateMaxIdByCustomStep(@Param("namespaceId") String namespaceId, @Param("tag") String tag, @Param("step") int step);
 }

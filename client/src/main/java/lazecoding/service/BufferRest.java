@@ -41,7 +41,8 @@ public class BufferRest {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                list = MAPPER.convertValue(resultBean.getValue(), new TypeReference<List<String>>() {});
+                list = MAPPER.convertValue(resultBean.getValue(), new TypeReference<List<String>>() {
+                });
             } else {
                 throw new RuntimeException("getTags ERROR:" + resultBean.getMessage());
             }
@@ -63,7 +64,8 @@ public class BufferRest {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                isExist = MAPPER.convertValue(resultBean.getValue(), new TypeReference<Boolean>() {});
+                isExist = MAPPER.convertValue(resultBean.getValue(), new TypeReference<Boolean>() {
+                });
             } else {
                 throw new RuntimeException("existTag ERROR:" + resultBean.getMessage());
             }
@@ -72,7 +74,6 @@ public class BufferRest {
         }
         return isExist;
     }
-
 
     /**
      * 在客户端配置的 namespace 下新增 tag
@@ -87,7 +88,8 @@ public class BufferRest {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {});
+                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {
+                });
             } else {
                 throw new RuntimeException("addTag ERROR:" + resultBean.getMessage());
             }
@@ -102,7 +104,7 @@ public class BufferRest {
      */
     public static boolean removeTag(String tag) {
         //  /api/tag/remove/{namespace}/{tag}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/remove/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag ;
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/remove/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag;
         ResultBean resultBean;
         try {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
@@ -118,15 +120,16 @@ public class BufferRest {
      * 申请号段
      */
     public static UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
-        // /api/segment/apply/{tag}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + tag;
+        // /api/segment/apply/{namespace}/{tag}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {});
+                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {
+                });
             } else {
                 throw new RuntimeException("updateMaxIdAndGetUniqueRecord ERROR:" + resultBean.getMessage());
             }
@@ -141,15 +144,16 @@ public class BufferRest {
      * 申请号段（自定义步长）
      */
     public static UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String tag, int step) {
-        // /api/segment/apply/{tag}/{step}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + tag + "/" + step;
+        // /api/segment/apply/{namespace}/{tag}/{step}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag + "/" + step;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
             Assert.notNull(resultBean, "resultBean is null");
             if (resultBean.isSuccess()) {
-                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {});
+                uniqueRecord = MAPPER.convertValue(resultBean.getValue(), new TypeReference<UniqueRecord>() {
+                });
             } else {
                 throw new RuntimeException("updateMaxIdByCustomStepAndGetLeafAlloc ERROR:" + resultBean.getMessage());
             }

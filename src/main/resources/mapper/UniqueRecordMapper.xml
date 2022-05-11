@@ -40,14 +40,14 @@
     </delete>
 
     <update id="updateMaxId">
-        UPDATE unique_record SET max_id = max_id + step WHERE bus_tag = #{tag}
+        UPDATE unique_record SET max_id = max_id + step WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag}
     </update>
 
     <select id="getUniqueRecord" resultMap="UniqueRecord">
-        SELECT uid,bus_tag,max_id,step,description,namespace_id,update_time FROM unique_record WHERE bus_tag = #{tag} LIMIT 1
+        SELECT uid,bus_tag,max_id,step,description,namespace_id,update_time FROM unique_record WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag} LIMIT 1
     </select>
 
     <update id="updateMaxIdByCustomStep">
-        UPDATE unique_record SET max_id = max_id + #{step} WHERE bus_tag = #{tag}
+        UPDATE unique_record SET max_id = max_id + #{step} WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag}
     </update>
 </mapper>
