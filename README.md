@@ -77,7 +77,7 @@ CREATE TABLE `namespace` (
 - NameSpace
 
 申请 namespace：`/api/namespace/apply/{authorization}/{description}`  
-获取 namespace: `/api/namespace/find/{authorization}/{namespace}`
+获取 namespace: `/api/namespace/find/{authorization}/{namespace}`  
 删除 namespace: `/api/namespace/remove/{authorization}/{namespace}`  
 
 - Tag
