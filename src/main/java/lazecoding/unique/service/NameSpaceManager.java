@@ -34,7 +34,6 @@ public class NameSpaceManager {
     public void init() {
         NameSpace nameSpace = nameSpaceMapper.findById(SYSTEM_NAMESPACE_ID);
         if (ObjectUtils.isEmpty(nameSpace)) {
-            // type == 1 表示 Server NameSpace
             nameSpaceMapper.add(SYSTEM_NAMESPACE_ID, "Server NameSpace");
         }
     }
@@ -46,9 +45,11 @@ public class NameSpaceManager {
      */
     public NameSpace apply(String description) {
         String namespaceId = UUID.randomUUID().toString();
-        // 默认 type = 0
         this.add(namespaceId, description);
-        NameSpace nameSpace = this.findById(namespaceId);
+        // 组织 nameSpace
+        NameSpace nameSpace = new NameSpace();
+        nameSpace.setNamespaceId(namespaceId);
+        nameSpace.setNamespaceId(namespaceId);
         return nameSpace;
     }
 
@@ -64,7 +65,7 @@ public class NameSpaceManager {
     }
 
     /**
-     * 删除（但是只能删除 type = 0）
+     * 删除
      *
      * @param namespaceId namespaceId
      */

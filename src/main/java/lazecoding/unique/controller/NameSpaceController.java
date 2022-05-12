@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * SegmentManagerController
+ * NameSpaceController
  *
  * @author lazecoding
  */
