@@ -13,7 +13,7 @@ spring:
   datasource:
     # driver-class-name: com.mysql.cj.jdbc.Driver
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://47.**.***.***:**/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://***:3306/unique?verifyServerCertificate=false&useSSL=false&allowMultiQueries=true
     username: ****
     password: ****
     type: com.alibaba.druid.pool.DruidDataSource
@@ -62,8 +62,8 @@ spring:
         url-pattern: "/druid/*"
         #允许那些ip,不配置默认全部
         allow:
-        login-username: ****
-        login-password: ****
+        login-username: admin
+        login-password: 1234
         #禁止那些ip
         deny: 192.168.1.102
         #是否可以重置

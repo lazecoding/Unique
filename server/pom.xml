@@ -11,7 +11,7 @@
     <groupId>lazecoding</groupId>
     <artifactId>unique</artifactId>
     <version>release-2.0.0</version>
-    <name>Unique</name>
+    <name>Unique-Server</name>
     <description>Distributed ID Generate Service</description>
 
     <properties>
