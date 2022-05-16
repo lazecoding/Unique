@@ -49,7 +49,7 @@ public class NameSpaceManager {
         // 组织 nameSpace
         NameSpace nameSpace = new NameSpace();
         nameSpace.setNamespaceId(namespaceId);
-        nameSpace.setNamespaceId(namespaceId);
+        nameSpace.setDescription(description);
         return nameSpace;
     }
 
