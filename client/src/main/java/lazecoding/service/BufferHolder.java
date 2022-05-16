@@ -90,13 +90,15 @@ public class BufferHolder {
     public static boolean init() {
         // 检验 UniqueClientConfig
         Assert.notNull(OpenApi.UNIQUE_CLIENT_CONFIG, "UniqueClientConfig is null");
-        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getUrl())){
+        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getUrl())) {
             throw new NilParamException("unique.client.url is null");
         }
 
-        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace())){
+        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace())) {
             throw new NilParamException("unique.client.namespace is null");
         }
+
+        logger.info("unique.client.config:[{}]", OpenApi.UNIQUE_CLIENT_CONFIG.toString());
 
         // Sync Tags IN Db/Cache
         boolean beSuccess = syncTagsFromDb();
@@ -135,7 +137,6 @@ public class BufferHolder {
     public static boolean removeTag(String tag) {
         return BufferRest.removeTag(tag);
     }
-
 
     /**
      * Sync Tags IN Db/Cache

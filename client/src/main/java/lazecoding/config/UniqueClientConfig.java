@@ -40,7 +40,7 @@ public class UniqueClientConfig {
 
     @Override
     public String toString() {
-        return "UniqueClientConfig{" +
+        return "{" +
                 "url='" + url + '\'' +
                 ", namespace='" + namespace + '\'' +
                 '}';
