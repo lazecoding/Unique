@@ -7,6 +7,7 @@ import lazecoding.model.UniqueRecord;
 import lazecoding.mvc.ResultBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -27,7 +28,15 @@ public class BufferRest {
 
     private static final Logger logger = LoggerFactory.getLogger(BufferRest.class);
 
-    private static RestTemplate restTemplate = new RestTemplate();
+    private static RestTemplate restTemplate;
+
+    static {
+        HttpComponentsClientHttpRequestFactory httpRequestFactory = new HttpComponentsClientHttpRequestFactory();
+        httpRequestFactory.setConnectionRequestTimeout(30 * 1000);
+        httpRequestFactory.setConnectTimeout(30 * 1000);
+        httpRequestFactory.setReadTimeout(30 * 1000);
+        restTemplate = new RestTemplate(httpRequestFactory);
+    }
 
     /**
      * 获取客户端配置的 namespace 下所有 tags
