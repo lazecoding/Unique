@@ -37,13 +37,7 @@ public class TagManager {
      * 获取 namespace 下 tags
      */
     public List<String> getTags(String namespaceId) {
-        // 1. 获取 NameSpace
-        NameSpace nameSpace = nameSpaceManager.findById(namespaceId);
-        if (ObjectUtils.isEmpty(nameSpace)) {
-            throw new NilNameSpaceException("该 namespace 不存在");
-        }
-
-        // 2. 根据 namespace 获取
+        //  根据 namespace 获取
         return uniqueRecordMapper.getTags(namespaceId);
     }
 

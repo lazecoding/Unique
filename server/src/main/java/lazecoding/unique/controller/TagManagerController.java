@@ -47,9 +47,6 @@ public class TagManagerController {
             tags = tagManager.getTags(namespace);
             isSuccess = true;
             message = "获取成功";
-        } catch (NilNameSpaceException e) {
-            isSuccess = false;
-            message = "该 namespace 不存在";
         } catch (Exception e) {
             isSuccess = false;
             logger.error("接口:[/api/tag/get/{namespace}] 获取失败", e);
