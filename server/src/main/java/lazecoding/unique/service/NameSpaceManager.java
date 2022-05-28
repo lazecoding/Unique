@@ -1,13 +1,16 @@
 package lazecoding.unique.service;
 
+import lazecoding.exception.RestrictedOperationException;
 import lazecoding.model.NameSpace;
 import lazecoding.unique.mapper.NameSpaceMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -27,6 +30,9 @@ public class NameSpaceManager {
 
     @Autowired
     private NameSpaceMapper nameSpaceMapper;
+
+    @Autowired
+    private TagManager tagManager;
 
     /**
      * 初始化
@@ -70,6 +76,11 @@ public class NameSpaceManager {
      * @param namespaceId namespaceId
      */
     public void remove(String namespaceId) {
+        // namespace 下是否存在 tag
+        List<String> tags = tagManager.getTags(namespaceId);
+        if (CollectionUtils.isEmpty(tags)) {
+            throw new RestrictedOperationException("该 namespace 下存在 tag，禁止删除");
+        }
         nameSpaceMapper.remove(namespaceId);
         logger.info("删除 namespace:[{}]", namespaceId);
     }

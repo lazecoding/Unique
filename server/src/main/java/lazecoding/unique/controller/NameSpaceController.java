@@ -2,6 +2,7 @@ package lazecoding.unique.controller;
 
 import lazecoding.exception.AuthorizationException;
 import lazecoding.exception.NilParamException;
+import lazecoding.exception.RestrictedOperationException;
 import lazecoding.model.NameSpace;
 import lazecoding.mvc.ResultBean;
 import lazecoding.unique.config.ServerConfig;
@@ -76,6 +77,9 @@ public class NameSpaceController {
             nameSpaceManager.remove(namespace);
             isSuccess = true;
             message = "删除成功";
+        } catch (RestrictedOperationException e) {
+            isSuccess = false;
+            message = "该 namespace 下存在 tag，禁止删除";
         } catch (Exception e) {
             isSuccess = false;
             logger.error("接口:[/api/namespace/remove/{authorization}/{namespace}] 删除失败", e);
