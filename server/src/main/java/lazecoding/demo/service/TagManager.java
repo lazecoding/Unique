@@ -1,10 +1,10 @@
-package lazecoding.unique.service;
+package lazecoding.demo.service;
 
 import lazecoding.exception.IllegalParamException;
 import lazecoding.exception.NilNameSpaceException;
 import lazecoding.model.NameSpace;
 import lazecoding.model.UniqueRecord;
-import lazecoding.unique.mapper.UniqueRecordMapper;
+import lazecoding.demo.mapper.UniqueRecordMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

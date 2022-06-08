@@ -1,4 +1,4 @@
-package lazecoding.unique.controller;
+package lazecoding.demo.controller;
 
 import lazecoding.api.OpenApi;
 import lazecoding.exception.IllegalParamException;
@@ -6,7 +6,7 @@ import lazecoding.exception.NilNameSpaceException;
 import lazecoding.exception.NilParamException;
 import lazecoding.model.UniqueRecord;
 import lazecoding.mvc.ResultBean;
-import lazecoding.unique.service.TagManager;
+import lazecoding.demo.service.TagManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

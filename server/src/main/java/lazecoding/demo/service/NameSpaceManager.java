@@ -1,9 +1,9 @@
-package lazecoding.unique.service;
+package lazecoding.demo.service;
 
 import lazecoding.exception.RestrictedOperationException;
 import lazecoding.model.NameSpace;
-import lazecoding.unique.mapper.NameSpaceMapper;
-import lazecoding.unique.mapper.UniqueRecordMapper;
+import lazecoding.demo.mapper.NameSpaceMapper;
+import lazecoding.demo.mapper.UniqueRecordMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

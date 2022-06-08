@@ -1,12 +1,12 @@
-package lazecoding.unique.controller;
+package lazecoding.demo.controller;
 
 import lazecoding.exception.AuthorizationException;
 import lazecoding.exception.NilParamException;
 import lazecoding.exception.RestrictedOperationException;
 import lazecoding.model.NameSpace;
 import lazecoding.mvc.ResultBean;
-import lazecoding.unique.config.ServerConfig;
-import lazecoding.unique.service.NameSpaceManager;
+import lazecoding.demo.config.ServerConfig;
+import lazecoding.demo.service.NameSpaceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

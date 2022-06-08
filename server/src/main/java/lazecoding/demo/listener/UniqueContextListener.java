@@ -1,7 +1,7 @@
-package lazecoding.unique.listener;
+package lazecoding.demo.listener;
 
-import lazecoding.unique.util.BeanUtil;
-import lazecoding.unique.service.SystemCycle;
+import lazecoding.demo.util.BeanUtil;
+import lazecoding.demo.service.SystemCycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.*;

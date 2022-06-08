@@ -1,4 +1,4 @@
-package lazecoding.unique.performance;
+package lazecoding.demo.performance;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

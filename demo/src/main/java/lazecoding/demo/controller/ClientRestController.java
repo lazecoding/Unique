@@ -1,4 +1,4 @@
-package lazecoding.unique.controller;
+package lazecoding.demo.controller;
 
 import lazecoding.api.OpenApi;
 import lazecoding.exception.InitException;

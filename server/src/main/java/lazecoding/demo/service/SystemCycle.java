@@ -1,9 +1,9 @@
-package lazecoding.unique.service;
+package lazecoding.demo.service;
 
 import lazecoding.api.OpenApi;
 import lazecoding.exception.NilParamException;
-import lazecoding.unique.util.BeanUtil;
-import lazecoding.unique.config.ServerConfig;
+import lazecoding.demo.util.BeanUtil;
+import lazecoding.demo.config.ServerConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package lazecoding.unique.mapper;
+package lazecoding.demo.mapper;
 
 import lazecoding.model.NameSpace;
 import org.apache.ibatis.annotations.Mapper;

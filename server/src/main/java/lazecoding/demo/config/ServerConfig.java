@@ -1,4 +1,4 @@
-package lazecoding.unique.config;
+package lazecoding.demo.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
