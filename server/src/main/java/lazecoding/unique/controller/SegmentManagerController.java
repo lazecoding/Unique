@@ -1,10 +1,10 @@
-package lazecoding.demo.controller;
+package lazecoding.unique.controller;
 
-import lazecoding.exception.IllegalParamException;
-import lazecoding.exception.NilParamException;
-import lazecoding.model.UniqueRecord;
-import lazecoding.mvc.ResultBean;
-import lazecoding.demo.service.SegmentManager;
+import lazecoding.unique.exception.IllegalParamException;
+import lazecoding.unique.exception.NilParamException;
+import lazecoding.unique.model.UniqueRecord;
+import lazecoding.unique.mvc.ResultBean;
+import lazecoding.unique.service.SegmentManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

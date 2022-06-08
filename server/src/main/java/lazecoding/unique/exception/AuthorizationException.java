@@ -1,4 +1,4 @@
-package lazecoding.exception;
+package lazecoding.unique.exception;
 
 /**
  * 鉴权异常

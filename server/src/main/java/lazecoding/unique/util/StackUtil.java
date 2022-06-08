@@ -1,4 +1,4 @@
-package lazecoding.demo.util;
+package lazecoding.unique.util;
 
 import java.util.*;
 

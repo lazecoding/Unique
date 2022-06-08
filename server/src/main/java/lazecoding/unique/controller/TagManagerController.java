@@ -1,12 +1,12 @@
-package lazecoding.demo.controller;
+package lazecoding.unique.controller;
 
-import lazecoding.api.OpenApi;
-import lazecoding.exception.IllegalParamException;
-import lazecoding.exception.NilNameSpaceException;
-import lazecoding.exception.NilParamException;
-import lazecoding.model.UniqueRecord;
-import lazecoding.mvc.ResultBean;
-import lazecoding.demo.service.TagManager;
+
+import lazecoding.unique.exception.IllegalParamException;
+import lazecoding.unique.exception.NilNameSpaceException;
+import lazecoding.unique.exception.NilParamException;
+import lazecoding.unique.model.UniqueRecord;
+import lazecoding.unique.mvc.ResultBean;
+import lazecoding.unique.service.TagManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -184,35 +184,6 @@ public class TagManagerController {
         resultBean.setSuccess(isSuccess);
         resultBean.setMessage(message);
         return resultBean;
-    }
-
-    // /api/tag/modify/{namespace}/{tag}/{start}/{step}/{description}
-    // /api/tag/modify-start/{namespace}/{tag}/{start}
-    // /api/tag/modify-step/{namespace}/{tag}/{step}
-    // /api/tag/modify-description/{namespace}/{tag}/{description}
-
-    /**
-     * 在 namespace 下删除 tag(待删除代码)
-     *
-     * @param namespace namespaceId
-     * @return
-     */
-    @RequestMapping(value = "/api/tag/test/{namespace}/{tag}", method = RequestMethod.GET)
-    @ResponseBody
-    public String test(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag) {
-        if (!StringUtils.hasText(namespace)) {
-            throw new NilParamException("namespace 不得为空");
-        }
-        if (!StringUtils.hasText(tag)) {
-            throw new NilParamException("tag 不得为空");
-        }
-        UniqueRecord uniqueRecord = OpenApi.addTag(tag, 1, 22222, "23721632");
-        System.out.println(uniqueRecord.toString());
-        System.out.println( "存在：" + OpenApi.existTag(tag));
-        System.out.println( "删除：" + OpenApi.removeTag(tag));
-        System.out.println( "存在：" + OpenApi.existTag(tag));
-        System.out.println( "删除：" + OpenApi.removeTag(tag));
-        return "resultBean";
     }
 
 }

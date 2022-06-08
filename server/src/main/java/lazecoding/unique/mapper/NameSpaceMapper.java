@@ -1,6 +1,6 @@
-package lazecoding.demo.mapper;
+package lazecoding.unique.mapper;
 
-import lazecoding.model.NameSpace;
+import lazecoding.unique.model.NameSpace;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

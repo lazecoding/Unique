@@ -1,4 +1,4 @@
-package lazecoding.model;
+package lazecoding.unique.model;
 
 /**
  * NameSpace

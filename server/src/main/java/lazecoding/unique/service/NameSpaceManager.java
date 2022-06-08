@@ -1,15 +1,15 @@
-package lazecoding.demo.service;
+package lazecoding.unique.service;
 
-import lazecoding.exception.RestrictedOperationException;
-import lazecoding.model.NameSpace;
-import lazecoding.demo.mapper.NameSpaceMapper;
-import lazecoding.demo.mapper.UniqueRecordMapper;
+
+import lazecoding.unique.exception.RestrictedOperationException;
+import lazecoding.unique.mapper.NameSpaceMapper;
+import lazecoding.unique.mapper.UniqueRecordMapper;
+import lazecoding.unique.model.NameSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,26 +24,12 @@ public class NameSpaceManager {
 
     private static final Logger logger = LoggerFactory.getLogger(NameSpaceManager.class);
 
-    /**
-     * Server NameSpace
-     */
-    public static final String SYSTEM_NAMESPACE_ID = "b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59";
-
     @Autowired
     private NameSpaceMapper nameSpaceMapper;
 
     @Autowired
     private UniqueRecordMapper uniqueRecordMapper;
 
-    /**
-     * 初始化
-     */
-    public void init() {
-        NameSpace nameSpace = nameSpaceMapper.findById(SYSTEM_NAMESPACE_ID);
-        if (ObjectUtils.isEmpty(nameSpace)) {
-            nameSpaceMapper.add(SYSTEM_NAMESPACE_ID, "Server NameSpace");
-        }
-    }
 
     /**
      * 申请 namespace

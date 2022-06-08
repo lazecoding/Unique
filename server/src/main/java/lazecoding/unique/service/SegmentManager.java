@@ -1,7 +1,7 @@
-package lazecoding.demo.service;
+package lazecoding.unique.service;
 
-import lazecoding.model.UniqueRecord;
-import lazecoding.demo.mapper.UniqueRecordMapper;
+import lazecoding.unique.mapper.UniqueRecordMapper;
+import lazecoding.unique.model.UniqueRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

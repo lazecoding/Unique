@@ -72,16 +72,11 @@ spring:
         enabled: true
 
 mybatis:
-  type-aliases-package: lazecoding.model
+  type-aliases-package: lazecoding.unique.model
   mapper-locations: classpath:mapper/*Mapper.xml
   configuration:
     # Mybatis驼峰命名映射
     map-underscore-to-camel-case: true
-
-unique:
-  client:
-    url: http://localhost:8090
-    namespace: b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59
 
 project:
   server-config:
