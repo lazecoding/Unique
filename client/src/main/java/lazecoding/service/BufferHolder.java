@@ -258,7 +258,7 @@ public class BufferHolder {
             //当更新时间小于15分钟，扩大步长，更新时间大于30分钟，缩小步长。 为了防止某时间段业务量飙升
             if (duration < SEGMENT_DURATION) {
                 if (nextStep * 2 > MAX_STEP) {
-                    //Do Nothing
+                    nextStep = MAX_STEP;
                 } else {
                     nextStep = nextStep * 2;
                 }
