@@ -19,35 +19,40 @@
         <!-- 其他不指定的列会自动封装：但推荐写完整。 -->
         <result column="step" property="step"/>
         <result column="description" property="description"/>
+        <result column="region" property="region"/>
         <result column="namespace_id" property="namespaceId"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <select id="getTags" resultType="java.lang.String">
-	    SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId}
+	    SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} AND region = #{region}
     </select>
 
     <select id="existTag" resultType="java.lang.String">
-        SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag} LIMIT 1
+        SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} AND region = #{region} AND bus_tag = #{tag} LIMIT 1
+    </select>
+
+    <select id="hasAnyTag" resultType="java.lang.String">
+        SELECT bus_tag FROM unique_record WHERE namespace_id = #{namespaceId} LIMIT 1
     </select>
 
     <insert id="add" parameterType="lazecoding.unique.model.UniqueRecord"  useGeneratedKeys="true" keyProperty="uid" keyColumn="uid">
-        INSERT INTO unique_record (bus_tag,max_id,step,description,namespace_id,update_time) VALUES (#{tag},#{maxId},#{step},#{description},#{namespaceId},#{updateTime})
+        INSERT INTO unique_record (bus_tag,max_id,step,description,region,namespace_id,update_time) VALUES (#{tag},#{maxId},#{step},#{description},#{region},#{namespaceId},#{updateTime})
     </insert>
 
     <delete id="remove">
-        DELETE FROM unique_record WHERE  namespace_id = #{namespaceId} AND bus_tag = #{tag}
+        DELETE FROM unique_record WHERE  namespace_id = #{namespaceId} AND region = #{region} AND bus_tag = #{tag}
     </delete>
 
     <update id="updateMaxId">
-        UPDATE unique_record SET max_id = max_id + step WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag}
+        UPDATE unique_record SET max_id = max_id + step WHERE namespace_id = #{namespaceId} AND region = #{region} AND bus_tag = #{tag}
     </update>
 
     <select id="getUniqueRecord" resultMap="UniqueRecord">
-        SELECT uid,bus_tag,max_id,step,description,namespace_id,update_time FROM unique_record WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag} LIMIT 1
+        SELECT uid,bus_tag,max_id,step,description,region,namespace_id,update_time FROM unique_record WHERE namespace_id = #{namespaceId} AND region = #{region} AND bus_tag = #{tag} LIMIT 1
     </select>
 
     <update id="updateMaxIdByCustomStep">
-        UPDATE unique_record SET max_id = max_id + #{step} WHERE namespace_id = #{namespaceId} AND bus_tag = #{tag}
+        UPDATE unique_record SET max_id = max_id + #{step} WHERE namespace_id = #{namespaceId} AND region = #{region} AND bus_tag = #{tag}
     </update>
 </mapper>

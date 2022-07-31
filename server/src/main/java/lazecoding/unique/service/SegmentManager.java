@@ -21,18 +21,18 @@ public class SegmentManager {
      * 申请号段
      */
     @Transactional(rollbackFor = Exception.class)
-    public UniqueRecord updateMaxIdAndGetUniqueRecord(String namespace, String tag) {
-        uniqueRecordMapper.updateMaxId(namespace, tag);
-        return uniqueRecordMapper.getUniqueRecord(namespace, tag);
+    public UniqueRecord updateMaxIdAndGetUniqueRecord(String namespace, String region, String tag) {
+        uniqueRecordMapper.updateMaxId(namespace, region, tag);
+        return uniqueRecordMapper.getUniqueRecord(namespace, region, tag);
     }
 
     /**
      * 申请号段（自定义步长）
      */
     @Transactional(rollbackFor = Exception.class)
-    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String namespace, String tag, int step) {
-        uniqueRecordMapper.updateMaxIdByCustomStep(namespace, tag, step);
-        return uniqueRecordMapper.getUniqueRecord(namespace, tag);
+    public UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String namespace, String region, String tag, int step) {
+        uniqueRecordMapper.updateMaxIdByCustomStep(namespace, region, tag, step);
+        return uniqueRecordMapper.getUniqueRecord(namespace, region, tag);
     }
 
 }

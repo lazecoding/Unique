@@ -4,7 +4,7 @@
 
 ### 介绍
 
-基于数据库号段生成分布式 ID，namespace 之间互相隔离，Client 可以管理所属 namespace 下 tag 和 segment buffer，Server 用于下发 namespace、tag、segment。
+基于数据库号段生成分布式 ID，namespace-region 之间互相隔离，Client 可以管理所属 namespace-region 下 tag 和 segment buffer，Server 用于下发 namespace、tag、segment。
 
 如此设计，极大减少了网络开销，由 Client 自行维护 segment buffer，`每个 Client QPS >> 500W` ！
 
@@ -26,11 +26,13 @@ Client - application.yml：
 
 ```yaml
 unique:
-  client:
-    # server domain
+  client: 
+    # 服务端域名
     url: http://localhost:8090
     # 所属 namespace
     namespace: b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59
+    # 区域，通常用于填写应用名
+    region: region
 ```
 
 Server - application.yml：
@@ -42,7 +44,7 @@ project:
     authorization: admin
 ```
 
-> authorization 用于管理 namespace；Server 默认 namespace 为 b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59。
+> authorization 用于管理 namespace；namespace-region 定位一组 tag。
 
 ### 初始化
 
@@ -74,6 +76,8 @@ CREATE TABLE `namespace` (
 
 ### API
 
+http://localhost:8090
+
 - NameSpace
 
 申请 namespace：`/api/namespace/apply/{authorization}/{description}`  
@@ -82,15 +86,15 @@ CREATE TABLE `namespace` (
 
 - Tag
 
-获取 tag: `/api/tag/get/{namespace}`  
-tag 存在判断: `/api/tag/exist/{namespace}/{tag}`  
-创建 tag: `/api/tag/add/{namespace}/{tag}/{maxId}/{step}/{description}`  
-删除 tag: `/api/tag/remove/{namespace}/{tag}`  
+获取 tag: `/api/tag/get/{namespace}/{region}`  
+tag 存在判断: `/api/tag/exist/{namespace}/{region}/{tag}`  
+创建 tag: `/api/tag/add/{namespace}/{region}/{tag}/{maxId}/{step}/{description}`  
+删除 tag: `/api/tag/remove/{namespace}/{region}/{tag}`  
 
 - Segment
 
-默认 step 申请 segment: `/api/segment/apply/{namespace}/{tag}`  
-自定义 step 申请 segment: `/api/segment/apply/{namespace}/{tag}/{step}`  
+默认 step 申请 segment: `/api/segment/apply/{namespace}/{region}/{tag}`  
+自定义 step 申请 segment: `/api/segment/apply/{namespace}/{region}/{tag}/{step}`  
 
 ## License
 

@@ -39,11 +39,11 @@ public class BufferRest {
     }
 
     /**
-     * 获取客户端配置的 namespace 下所有 tags
+     * 获取客户端配置的 namespace-region 下所有 tags
      */
     public static List<String> getTags() {
-        // /api/tag/get/{namespace}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/get/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace();
+        // /api/tag/get/{namespace}/{region}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/get/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion();
         List<String> list = null;
         ResultBean resultBean;
         try {
@@ -62,11 +62,12 @@ public class BufferRest {
     }
 
     /**
-     * 判断客户端配置的 namespace 下是否存在某 tag
+     * 判断客户端配置的 namespace-region 下是否存在某 tag
      */
     public static boolean existTag(String tag) {
-        // /api/tag/exist/{namespace}/{tag}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/exist/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag;
+        // /api/tag/exist/{namespace}/{region}/{tag}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/exist/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace()
+                + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion() + "/" + tag;
         boolean isExist = false;
         ResultBean resultBean;
         try {
@@ -85,12 +86,12 @@ public class BufferRest {
     }
 
     /**
-     * 在客户端配置的 namespace 下新增 tag
+     * 在客户端配置的 namespace-region 下新增 tag
      */
     public static UniqueRecord addTag(String tag, long maxId, int step, String description) {
-        //  /api/tag/add/{namespace}/{tag}/{maxId}/{step}/{description}
+        //  /api/tag/add/{namespace}/{region}/{tag}/{maxId}/{step}/{description}
         String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/add/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace()
-                + "/" + tag + "/" + maxId + "/" + step + "/" + description;
+                + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion() + "/" + tag + "/" + maxId + "/" + step + "/" + description;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {
@@ -109,11 +110,12 @@ public class BufferRest {
     }
 
     /**
-     * 在客户端配置的 namespace 下删除 tag
+     * 在客户端配置的 namespace-region 下删除 tag
      */
     public static boolean removeTag(String tag) {
-        //  /api/tag/remove/{namespace}/{tag}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/remove/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag;
+        //  /api/tag/remove/{namespace}/{region}/{tag}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/tag/remove/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace()
+                + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion() + "/" + tag;
         ResultBean resultBean;
         try {
             resultBean = restTemplate.getForObject(requestUrl, ResultBean.class);
@@ -129,8 +131,9 @@ public class BufferRest {
      * 申请号段
      */
     public static UniqueRecord updateMaxIdAndGetUniqueRecord(String tag) {
-        // /api/segment/apply/{namespace}/{tag}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag;
+        // /api/segment/apply/{namespace}/{region}/{tag}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace()
+                + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion() + "/" + tag;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {
@@ -153,8 +156,9 @@ public class BufferRest {
      * 申请号段（自定义步长）
      */
     public static UniqueRecord updateMaxIdByCustomStepAndGetLeafAlloc(String tag, int step) {
-        // /api/segment/apply/{namespace}/{tag}/{step}
-        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace() + "/" + tag + "/" + step;
+        // /api/segment/apply/{namespace}/{region}/{tag}/{step}
+        String requestUrl = OpenApi.UNIQUE_CLIENT_CONFIG.getUrl() + "/api/segment/apply/" + OpenApi.UNIQUE_CLIENT_CONFIG.getNamespace()
+                + "/" + OpenApi.UNIQUE_CLIENT_CONFIG.getRegion() + "/" + tag + "/" + step;
         UniqueRecord uniqueRecord = null;
         ResultBean resultBean;
         try {

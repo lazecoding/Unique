@@ -27,11 +27,14 @@ public class SegmentManagerController {
     /**
      * 申请号段
      */
-    @RequestMapping(value = "/api/segment/apply/{namespace}/{tag}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/segment/apply/{namespace}/{region}/{tag}", method = RequestMethod.GET)
     @ResponseBody
-    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag) {
+    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("region") String region, @PathVariable("tag") String tag) {
         if (!StringUtils.hasText(namespace)) {
             throw new NilParamException("namespace 不得为空");
+        }
+        if (!StringUtils.hasText(region)) {
+            throw new NilParamException("region 不得为空");
         }
         if (!StringUtils.hasText(tag)) {
             throw new NilParamException("tag 不得为空");
@@ -40,12 +43,12 @@ public class SegmentManagerController {
         boolean isSuccess = false;
         String message = "";
         try {
-            uniqueRecord = segmentManager.updateMaxIdAndGetUniqueRecord(namespace, tag);
+            uniqueRecord = segmentManager.updateMaxIdAndGetUniqueRecord(namespace, region, tag);
             isSuccess = true;
             message = "获取成功";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口:[/api/segment/apply/{namespace}/{tag}] 获取失败", e);
+            logger.error("接口:[/api/segment/apply/{namespace}/{region}/{tag}] 获取失败", e);
             message = "系统异常，获取失败";
         }
         ResultBean resultBean = new ResultBean();
@@ -58,11 +61,14 @@ public class SegmentManagerController {
     /**
      * 申请号段（自定义）
      */
-    @RequestMapping(value = "/api/segment/apply/{namespace}/{tag}/{step}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/segment/apply/{namespace}/{region}/{tag}/{step}", method = RequestMethod.GET)
     @ResponseBody
-    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("tag") String tag, @PathVariable("step") Integer step) {
+    public ResultBean apply(@PathVariable("namespace") String namespace, @PathVariable("region") String region, @PathVariable("tag") String tag, @PathVariable("step") Integer step) {
         if (!StringUtils.hasText(namespace)) {
             throw new NilParamException("namespace 不得为空");
+        }
+        if (!StringUtils.hasText(region)) {
+            throw new NilParamException("region 不得为空");
         }
         if (!StringUtils.hasText(tag)) {
             throw new NilParamException("tag 不得为空");
@@ -80,12 +86,12 @@ public class SegmentManagerController {
         boolean isSuccess = false;
         String message = "";
         try {
-            uniqueRecord = segmentManager.updateMaxIdByCustomStepAndGetLeafAlloc(namespace, tag, step);
+            uniqueRecord = segmentManager.updateMaxIdByCustomStepAndGetLeafAlloc(namespace, region, tag, step);
             isSuccess = true;
             message = "获取成功";
         } catch (Exception e) {
             isSuccess = false;
-            logger.error("接口:[/api/segment/apply/{namespace}/{tag}/{step}] 获取失败", e);
+            logger.error("接口:[/api/segment/apply/{namespace}/{region}/{tag}/{step}] 获取失败", e);
             message = "系统异常，获取失败";
         }
         ResultBean resultBean = new ResultBean();

@@ -50,10 +50,10 @@ public class OpenApi {
         return BufferBatcher.batch(tag, size);
     }
 
-    // TODO namespace 下 CURD tag
+    // TODO namespace-region 下 CURD tag
 
     /**
-     * 获取客户端配置的 namespace 下所有 tags
+     * 获取客户端配置的 namespace-region 下所有 tags
      */
     public static List<String> getTags() {
         return BufferHolder.getTags();
@@ -61,7 +61,7 @@ public class OpenApi {
 
 
     /**
-     * 判断客户端配置的 namespace 下是否存在某 tag
+     * 判断客户端配置的 namespace-region 下是否存在某 tag
      */
     public static boolean existTag(String tag) {
         if (!StringUtils.hasText(tag)) {
@@ -72,7 +72,7 @@ public class OpenApi {
 
 
     /**
-     * 在客户端配置的 namespace 下新增 tag
+     * 在客户端配置的 namespace-region 下新增 tag
      */
     public static UniqueRecord addTag(String tag, long maxId, int step, String description) {
         if (!StringUtils.hasText(tag)) {
@@ -94,7 +94,7 @@ public class OpenApi {
     }
 
     /**
-     * 在客户端配置的 namespace 下删除 tag
+     * 在客户端配置的 namespace-region 下删除 tag
      */
     public static boolean removeTag(String tag) {
         if (!StringUtils.hasText(tag)) {

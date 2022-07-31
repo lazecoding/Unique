@@ -1,6 +1,5 @@
 package lazecoding.unique.service;
 
-
 import lazecoding.unique.exception.RestrictedOperationException;
 import lazecoding.unique.mapper.NameSpaceMapper;
 import lazecoding.unique.mapper.UniqueRecordMapper;
@@ -10,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.UUID;
@@ -29,7 +29,6 @@ public class NameSpaceManager {
 
     @Autowired
     private UniqueRecordMapper uniqueRecordMapper;
-
 
     /**
      * 申请 namespace
@@ -64,8 +63,8 @@ public class NameSpaceManager {
      */
     public void remove(String namespaceId) {
         // namespace 下是否存在 tag
-        List<String> tags = uniqueRecordMapper.getTags(namespaceId);
-        if (CollectionUtils.isEmpty(tags)) {
+        String res = uniqueRecordMapper.hasAnyTag(namespaceId);
+        if (StringUtils.hasText(res)) {
             throw new RestrictedOperationException("该 namespace 下存在 tag，禁止删除");
         }
         nameSpaceMapper.remove(namespaceId);

@@ -34,32 +34,32 @@ public class TagManager {
     private NameSpaceManager nameSpaceManager;
 
     /**
-     * 获取 namespace 下 tags
+     * 获取 namespace-region 下 tags
      */
-    public List<String> getTags(String namespaceId) {
-        //  根据 namespace 获取
-        return uniqueRecordMapper.getTags(namespaceId);
+    public List<String> getTags(String namespaceId, String region) {
+        //  根据 namespace-region 获取
+        return uniqueRecordMapper.getTags(namespaceId, region);
     }
 
     /**
-     * 判断 namespace 下是否存在某 tag
+     * 判断 namespace-region 下是否存在某 tag
      */
-    public boolean existTag(String namespaceId, String tag) {
+    public boolean existTag(String namespaceId, String region, String tag) {
         // 1. 获取 NameSpace
         NameSpace nameSpace = nameSpaceManager.findById(namespaceId);
         if (ObjectUtils.isEmpty(nameSpace)) {
             throw new NilNameSpaceException("该 namespace 不存在");
         }
 
-        // 2. 根据 namespace 和 tag 获取，如果获取到了值，说明存在。
-        String res = uniqueRecordMapper.existTag(namespaceId, tag);
+        // 2. 根据 namespace-region 和 tag 获取，如果获取到了值，说明存在。
+        String res = uniqueRecordMapper.existTag(namespaceId, region, tag);
         return StringUtils.hasText(res);
     }
 
     /**
-     * 在 namespace 下新增 tag
+     * 在 namespace-region 下新增 tag
      */
-    public UniqueRecord add(String namespaceId, String tag, long maxId, int step, String description) {
+    public UniqueRecord add(String namespaceId, String region, String tag, long maxId, int step, String description) {
         // 1. 获取 NameSpace
         NameSpace nameSpace = nameSpaceManager.findById(namespaceId);
         if (ObjectUtils.isEmpty(nameSpace)) {
@@ -81,17 +81,18 @@ public class TagManager {
         uniqueRecord.setMaxId(maxId);
         uniqueRecord.setStep(step);
         uniqueRecord.setDescription(description);
+        uniqueRecord.setRegion(region);
         uniqueRecord.setNamespaceId(namespaceId);
         uniqueRecord.setUpdateTime(Date.from(LocalDateTime.now().toInstant(ZoneOffset.of("+8"))));
         uniqueRecordMapper.add(uniqueRecord);
-        logger.info("namespace:[{}] 下新增 tag:[{}]", namespaceId,uniqueRecord.toString());
+        logger.info("namespace:[{}] region:[{}] 下新增 tag:[{}]", namespaceId, region, uniqueRecord.toString());
         return uniqueRecord;
     }
 
     /**
-     * 在 namespace 下删除 tag
+     * 在 namespace-region 下删除 tag
      */
-    public void remove(String namespaceId, String tag) {
+    public void remove(String namespaceId, String region, String tag) {
         // 1. 获取 NameSpace
         NameSpace nameSpace = nameSpaceManager.findById(namespaceId);
         if (ObjectUtils.isEmpty(nameSpace)) {
@@ -99,8 +100,8 @@ public class TagManager {
         }
 
         // 2. remove
-        uniqueRecordMapper.remove(namespaceId, tag);
-        logger.info("namespace:[{}] 下删除 tag:[{}]", namespaceId, tag);
+        uniqueRecordMapper.remove(namespaceId, region, tag);
+        logger.info("namespace:[{}] region:[{}] 下删除 tag:[{}]", namespaceId, region, tag);
     }
 
 }

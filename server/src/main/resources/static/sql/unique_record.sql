@@ -6,10 +6,11 @@ CREATE TABLE `unique_record` (
  `max_id` bigint(20) NOT NULL,
  `step` int(11) NOT NULL,
  `description` varchar(256),
+ `region` varchar(36) NOT NULL,
  `namespace_id` varchar(36) NOT NULL,
  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  PRIMARY KEY (`uid`),
- UNIQUE INDEX  idx_namespace_tag(`namespace_id`,`bus_tag`),
+ UNIQUE INDEX  idx_namespace_tag(`namespace_id`,`region`,`bus_tag`),
  INDEX idx_tag (`bus_tag`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

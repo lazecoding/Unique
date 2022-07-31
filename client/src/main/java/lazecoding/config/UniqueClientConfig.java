@@ -22,6 +22,11 @@ public class UniqueClientConfig {
      */
     private String namespace = "";
 
+    /**
+     * 区域
+     */
+    private String region = "";
+
     public String getUrl() {
         return url;
     }
@@ -38,11 +43,20 @@ public class UniqueClientConfig {
         this.namespace = namespace;
     }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     @Override
     public String toString() {
         return "{" +
                 "url='" + url + '\'' +
                 ", namespace='" + namespace + '\'' +
+                ", region='" + region + '\'' +
                 '}';
     }
 }

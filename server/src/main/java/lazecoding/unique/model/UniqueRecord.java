@@ -35,6 +35,11 @@ public class UniqueRecord {
     private String description;
 
     /**
+     * 区域
+     */
+    private String region;
+
+    /**
      * namespaceId
      */
     private String namespaceId;
@@ -84,6 +89,14 @@ public class UniqueRecord {
         this.description = description;
     }
 
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
     public String getNamespaceId() {
         return namespaceId;
     }
@@ -102,12 +115,13 @@ public class UniqueRecord {
 
     @Override
     public String toString() {
-        return "{" +
+        return "UniqueRecord{" +
                 "uid=" + uid +
                 ", tag='" + tag + '\'' +
                 ", maxId=" + maxId +
                 ", step=" + step +
                 ", description='" + description + '\'' +
+                ", region='" + region + '\'' +
                 ", namespaceId='" + namespaceId + '\'' +
                 ", updateTime=" + updateTime +
                 '}';

@@ -13,5 +13,9 @@ spring:
 
 unique:
   client:
+    # 服务端域名
     url: http://localhost:8090
+    # namespace
     namespace: b9fefb0d-6ff4-47c3-a5bc-f5f9c172fe59
+    # 区域
+    region: region

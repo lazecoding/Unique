@@ -98,6 +98,10 @@ public class BufferHolder {
             throw new NilParamException("unique.client.namespace is null");
         }
 
+        if (!StringUtils.hasText(OpenApi.UNIQUE_CLIENT_CONFIG.getRegion())) {
+            throw new NilParamException("unique.client.region is null");
+        }
+
         logger.info("unique.client.config:[{}]", OpenApi.UNIQUE_CLIENT_CONFIG.toString());
 
         // Sync Tags IN Db/Cache
@@ -111,28 +115,28 @@ public class BufferHolder {
     }
 
     /**
-     * 获取客户端配置的 namespace 下所有 tags
+     * 获取客户端配置的 namespace-region 下所有 tags
      */
     public static List<String> getTags() {
         return BufferRest.getTags();
     }
 
     /**
-     * 判断客户端配置的 namespace 下是否存在某 tag
+     * 判断客户端配置的 namespace-region 下是否存在某 tag
      */
     public static boolean existTag(String tag) {
         return BufferRest.existTag(tag);
     }
 
     /**
-     * 在客户端配置的 namespace 下新增 tag
+     * 在客户端配置的 namespace-region 下新增 tag
      */
     public static UniqueRecord addTag(String tag, long maxId, int step, String description) {
         return BufferRest.addTag(tag, maxId, step, description);
     }
 
     /**
-     * 在客户端配置的 namespace 下删除 tag
+     * 在客户端配置的 namespace-region 下删除 tag
      */
     public static boolean removeTag(String tag) {
         return BufferRest.removeTag(tag);
@@ -149,6 +153,7 @@ public class BufferHolder {
             // 根据 namespace 获取 tags
             List<String> dbTags = BufferHolder.getTags();
             if (CollectionUtils.isEmpty(dbTags)) {
+                logger.info("Sync Tags IN Db/Cache Ready");
                 isSuccess = true;
                 return isSuccess;
             }
