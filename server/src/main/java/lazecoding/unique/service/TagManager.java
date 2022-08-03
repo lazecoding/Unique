@@ -85,7 +85,7 @@ public class TagManager {
         uniqueRecord.setNamespaceId(namespaceId);
         uniqueRecord.setUpdateTime(Date.from(LocalDateTime.now().toInstant(ZoneOffset.of("+8"))));
         uniqueRecordMapper.add(uniqueRecord);
-        logger.info("namespace:[{}] region:[{}] 下新增 tag:[{}]", namespaceId, region, uniqueRecord.toString());
+        logger.debug("namespace:[{}] region:[{}] 下新增 tag:[{}]", namespaceId, region, uniqueRecord.toString());
         return uniqueRecord;
     }
 
@@ -101,7 +101,7 @@ public class TagManager {
 
         // 2. remove
         uniqueRecordMapper.remove(namespaceId, region, tag);
-        logger.info("namespace:[{}] region:[{}] 下删除 tag:[{}]", namespaceId, region, tag);
+        logger.debug("namespace:[{}] region:[{}] 下删除 tag:[{}]", namespaceId, region, tag);
     }
 
 }

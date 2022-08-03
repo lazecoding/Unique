@@ -53,7 +53,7 @@ public class NameSpaceManager {
      */
     private void add(String namespaceId, String description) {
         nameSpaceMapper.add(namespaceId, description);
-        logger.info("新增 namespace:[{}],description:[{}]", namespaceId, description);
+        logger.debug("新增 namespace:[{}],description:[{}]", namespaceId, description);
     }
 
     /**
@@ -68,7 +68,7 @@ public class NameSpaceManager {
             throw new RestrictedOperationException("该 namespace 下存在 tag，禁止删除");
         }
         nameSpaceMapper.remove(namespaceId);
-        logger.info("删除 namespace:[{}]", namespaceId);
+        logger.debug("删除 namespace:[{}]", namespaceId);
     }
 
     /**

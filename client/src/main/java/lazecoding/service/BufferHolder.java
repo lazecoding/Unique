@@ -102,7 +102,7 @@ public class BufferHolder {
             throw new NilParamException("unique.client.region is null");
         }
 
-        logger.info("unique.client.config:[{}]", OpenApi.UNIQUE_CLIENT_CONFIG.toString());
+        logger.info("unique.client.config:[{}] init success", OpenApi.UNIQUE_CLIENT_CONFIG.toString());
 
         // Sync Tags IN Db/Cache
         boolean beSuccess = syncTagsFromDb();
@@ -146,14 +146,14 @@ public class BufferHolder {
      * Sync Tags IN Db/Cache
      */
     private static boolean syncTagsFromDb() {
-        logger.info("Sync Tags IN Db/Cache Start");
+        logger.debug("Sync Tags IN Db/Cache Start");
         // 标识更新IdCache是否成功
         boolean isSuccess = false;
         try {
             // 根据 namespace 获取 tags
             List<String> dbTags = BufferHolder.getTags();
             if (CollectionUtils.isEmpty(dbTags)) {
-                logger.info("Sync Tags IN Db/Cache Ready");
+                logger.debug("Sync Tags IN Db/Cache Ready");
                 initSuccess = true;
                 isSuccess = true;
                 return isSuccess;
@@ -175,7 +175,7 @@ public class BufferHolder {
                 segment.setMax(0);
                 segment.setStep(0);
                 IdCache.put(tag, buffer);
-                logger.info("Add Tags From Db To IdCache, SegmentBuffer:[{}]", tag, buffer);
+                logger.debug("Add Tags From Db To IdCache, SegmentBuffer:[{}]", tag, buffer);
             }
             for (int i = 0; i < dbTags.size(); i++) {
                 String tmp = dbTags.get(i);
@@ -185,11 +185,11 @@ public class BufferHolder {
             }
             for (String tag : removeTagsSet) {
                 IdCache.remove(tag);
-                logger.info("Remove Tags:[{}] In IdCache", tag);
+                logger.debug("Remove Tags:[{}] In IdCache", tag);
             }
             isSuccess = true;
             initSuccess = true;
-            logger.info("Sync Tags IN Db/Cache Ready");
+            logger.debug("Sync Tags IN Db/Cache Ready");
             return isSuccess;
         } catch (Exception e) {
             logger.error("Sync Tags IN Db/Cache Exception", e);
@@ -230,7 +230,7 @@ public class BufferHolder {
                     if (!buffer.isInitSuccess()) {
                         try {
                             applySegmentFromDb(tag, buffer.getCurrent());
-                            logger.info("Init Tag:[{}] Buffer:[{}] From Db ", tag, buffer.getCurrent());
+                            logger.debug("Init Tag:[{}] Buffer:[{}] From Db ", tag, buffer.getCurrent());
                             // buffer 初始化成功
                             buffer.setInitSuccess(true);
                         } catch (Exception e) {
@@ -274,7 +274,7 @@ public class BufferHolder {
             } else {
                 nextStep = nextStep / 2 >= buffer.getMinStep() ? nextStep / 2 : nextStep;
             }
-            logger.info("tag[{}], step[{}], duration[{}mins], nextStep[{}]", tag, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
+            logger.debug("tag[{}], step[{}], duration[{}mins], nextStep[{}]", tag, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
             // apply record
             uniqueRecord = BufferRest.updateMaxIdByCustomStepAndGetLeafAlloc(tag, nextStep);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
@@ -311,7 +311,7 @@ public class BufferHolder {
                         try {
                             applySegmentFromDb(buffer.getTag(), next);
                             updateOk = true;
-                            logger.info("Tag:[{}] Update Buffer Segment From Db [{}]", buffer.getTag(), next);
+                            logger.debug("Tag:[{}] Update Buffer Segment From Db [{}]", buffer.getTag(), next);
                         } catch (Exception e) {
                             logger.error("Tag:[" + buffer.getTag() + "] Update Buffer Segment From Db Exception", e);
                         } finally {
