@@ -154,6 +154,7 @@ public class BufferHolder {
             List<String> dbTags = BufferHolder.getTags();
             if (CollectionUtils.isEmpty(dbTags)) {
                 logger.info("Sync Tags IN Db/Cache Ready");
+                initSuccess = true;
                 isSuccess = true;
                 return isSuccess;
             }
@@ -187,6 +188,7 @@ public class BufferHolder {
                 logger.info("Remove Tags:[{}] In IdCache", tag);
             }
             isSuccess = true;
+            initSuccess = true;
             logger.info("Sync Tags IN Db/Cache Ready");
             return isSuccess;
         } catch (Exception e) {
