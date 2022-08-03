@@ -56,7 +56,8 @@ public class BufferRest {
                 throw new RuntimeException("getTags ERROR:" + resultBean.getMessage());
             }
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
         return list;
     }
@@ -80,7 +81,8 @@ public class BufferRest {
                 throw new RuntimeException("existTag ERROR:" + resultBean.getMessage());
             }
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
         return isExist;
     }
@@ -104,7 +106,8 @@ public class BufferRest {
                 throw new RuntimeException("addTag ERROR:" + resultBean.getMessage());
             }
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
         return uniqueRecord;
     }
@@ -122,9 +125,9 @@ public class BufferRest {
             Assert.notNull(resultBean, "resultBean is null");
             return resultBean.isSuccess();
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
-        return false;
     }
 
     /**
@@ -146,8 +149,8 @@ public class BufferRest {
                 throw new RuntimeException("updateMaxIdAndGetUniqueRecord ERROR:" + resultBean.getMessage());
             }
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
-            throw new RuntimeException(e.getCause().toString());
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
         return uniqueRecord;
     }
@@ -171,8 +174,8 @@ public class BufferRest {
                 throw new RuntimeException("updateMaxIdByCustomStepAndGetLeafAlloc ERROR:" + resultBean.getMessage());
             }
         } catch (RestClientException e) {
-            logger.error("requestUrl:[{}] ERROR.", requestUrl);
-            throw new RuntimeException(e.getCause().toString());
+            logger.error("requestUrl:[" + requestUrl + "] ERROR.", e);
+            throw new RestClientException("requestUrl:[" + requestUrl + "] ERROR.");
         }
         return uniqueRecord;
     }
