@@ -1,5 +1,6 @@
 package lazecoding.unique.service;
 
+import lazecoding.unique.config.ServerConstant;
 import lazecoding.unique.exception.IllegalParamException;
 import lazecoding.unique.exception.NilNameSpaceException;
 import lazecoding.unique.mapper.UniqueRecordMapper;
@@ -68,11 +69,11 @@ public class TagManager {
         if (maxId < 1) {
             throw new IllegalParamException("初始化的 maxId 值不可以小于 1");
         }
-        if (step < 20000) {
-            throw new IllegalParamException("start 不可以小于 20,000");
+        if (step < ServerConstant.MIN_STEP) {
+            throw new IllegalParamException("start 不可以小于 " + ServerConstant.MIN_STEP);
         }
-        if (step > 1000000) {
-            throw new IllegalParamException("start 不可以大于 1000,000");
+        if (step > ServerConstant.MAX_STEP) {
+            throw new IllegalParamException("start 不可以大于 " + ServerConstant.MAX_STEP);
         }
 
         // 2. add

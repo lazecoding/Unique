@@ -1,5 +1,6 @@
 package lazecoding.api;
 
+import lazecoding.config.ClientConstant;
 import lazecoding.config.UniqueClientConfig;
 import lazecoding.exception.IllegalParamException;
 import lazecoding.exception.InitException;
@@ -81,11 +82,11 @@ public class OpenApi {
         if (maxId < 1) {
             throw new IllegalParamException("初始化的 maxId 值不可以小于 1");
         }
-        if (step < 20000) {
-            throw new IllegalParamException("start 不可以小于 20,000");
+        if (step < ClientConstant.MIN_STEP) {
+            throw new IllegalParamException("start 不可以小于 " + ClientConstant.MIN_STEP);
         }
-        if (step > 1000000) {
-            throw new IllegalParamException("start 不可以大于 1000,000");
+        if (step > ClientConstant.MAX_STEP) {
+            throw new IllegalParamException("start 不可以大于 " + ClientConstant.MAX_STEP);
         }
         if (!StringUtils.hasText(description)) {
             throw new NilParamException("description 不得为空");

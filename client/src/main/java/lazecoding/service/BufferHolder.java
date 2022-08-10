@@ -1,6 +1,7 @@
 package lazecoding.service;
 
 import lazecoding.api.OpenApi;
+import lazecoding.config.ClientConstant;
 import lazecoding.exception.InitException;
 import lazecoding.exception.NilParamException;
 import lazecoding.exception.NilTagException;
@@ -26,16 +27,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class BufferHolder {
 
     private static final Logger logger = LoggerFactory.getLogger(BufferHolder.class);
-
-    /**
-     * 最大步长不超过 100,0000
-     */
-    private static final int MAX_STEP = 1000000;
-
-    /**
-     * 一个 Segment 维持时间为 15 分钟
-     */
-    private static final long SEGMENT_DURATION = 15 * 60 * 1000L;
 
     /**
      * 核心数
@@ -263,13 +254,13 @@ public class BufferHolder {
             long duration = System.currentTimeMillis() - buffer.getUpdateTimestamp();
             int nextStep = buffer.getStep();
             //当更新时间小于15分钟，扩大步长，更新时间大于30分钟，缩小步长。 为了防止某时间段业务量飙升
-            if (duration < SEGMENT_DURATION) {
-                if (nextStep * 2 > MAX_STEP) {
-                    nextStep = MAX_STEP;
+            if (duration < ClientConstant.SEGMENT_DURATION) {
+                if (nextStep * 2 > ClientConstant.MAX_STEP) {
+                    nextStep = ClientConstant.MAX_STEP;
                 } else {
                     nextStep = nextStep * 2;
                 }
-            } else if (duration < SEGMENT_DURATION * 2) {
+            } else if (duration < ClientConstant.SEGMENT_DURATION * 2) {
                 //Do Nothing with nextStep
             } else {
                 nextStep = nextStep / 2 >= buffer.getMinStep() ? nextStep / 2 : nextStep;

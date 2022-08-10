@@ -1,5 +1,6 @@
 package lazecoding.unique.controller;
 
+import lazecoding.unique.config.ServerConstant;
 import lazecoding.unique.exception.IllegalParamException;
 import lazecoding.unique.exception.NilParamException;
 import lazecoding.unique.model.UniqueRecord;
@@ -76,11 +77,11 @@ public class SegmentManagerController {
         if (step == null) {
             throw new NilParamException("step 不得为空");
         }
-        if (step < 20000) {
-            throw new IllegalParamException("start 不可以小于 20,000");
+        if (step < ServerConstant.MIN_STEP) {
+            throw new IllegalParamException("start 不可以小于 " + ServerConstant.MIN_STEP);
         }
-        if (step > 1000000) {
-            throw new IllegalParamException("start 不可以大于 1000,000");
+        if (step > ServerConstant.MAX_STEP) {
+            throw new IllegalParamException("start 不可以大于 " + ServerConstant.MAX_STEP);
         }
         UniqueRecord uniqueRecord = null;
         boolean isSuccess = false;
