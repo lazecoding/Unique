@@ -69,11 +69,11 @@ public class TagManager {
         if (maxId < 1) {
             throw new IllegalParamException("初始化的 maxId 值不可以小于 1");
         }
-        if (step < ServerConstant.MIN_STEP) {
-            throw new IllegalParamException("start 不可以小于 " + ServerConstant.MIN_STEP);
+        if (step < ServerConstant.MIN_INIT_STEP) {
+            throw new IllegalParamException("start 不可以小于 " + ServerConstant.MIN_INIT_STEP);
         }
-        if (step > ServerConstant.MAX_STEP) {
-            throw new IllegalParamException("start 不可以大于 " + ServerConstant.MAX_STEP);
+        if (step > ServerConstant.MAX_INIT_STEP) {
+            throw new IllegalParamException("start 不可以大于 " + ServerConstant.MAX_INIT_STEP);
         }
 
         // 2. add
