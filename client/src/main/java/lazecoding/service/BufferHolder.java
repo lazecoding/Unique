@@ -274,7 +274,7 @@ public class BufferHolder {
             } else {
                 nextStep = nextStep / 2 >= buffer.getMinStep() ? nextStep / 2 : nextStep;
             }
-            logger.debug("tag[{}], step[{}], duration[{}mins], nextStep[{}]", tag, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
+            logger.debug("transform for tag[{}],step[{}],duration[{}mins],nextStep[{}]", tag, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
             // apply record
             uniqueRecord = BufferRest.updateMaxIdByCustomStepAndGetLeafAlloc(tag, nextStep);
             buffer.setUpdateTimestamp(System.currentTimeMillis());
