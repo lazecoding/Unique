@@ -1,6 +1,6 @@
-# Unique release-2.X.X
+# Unique release-2.0.0
 
-分布式 ID 生成服务 `release-2.X.X`，分离出 Client 和 Server。
+分布式 ID 生成服务 `release-2.0.0`，分离出 Client 和 Server。
 
 ### 介绍
 
