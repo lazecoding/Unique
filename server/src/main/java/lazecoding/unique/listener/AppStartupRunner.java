@@ -1,6 +1,5 @@
 package lazecoding.unique.listener;
 
-import lazecoding.unique.controller.SegmentManagerController;
 import lazecoding.unique.service.SystemCycle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

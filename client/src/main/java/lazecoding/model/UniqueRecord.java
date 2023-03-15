@@ -45,7 +45,7 @@ public class UniqueRecord {
     private String namespaceId;
 
     /**
-     * 更新事件
+     * 更新时间
      */
     private Date updateTime;
 
